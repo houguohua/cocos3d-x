@@ -67,8 +67,6 @@ public:
 
 	void setID(std::string& id);
 
-	const std::string& getResourceName(void) const;
-
     const C3DResource::State getState(void) const;
 
 	void setState(C3DResource::State state);
@@ -84,11 +82,9 @@ public:
 
 	int getCloneNum();
 
-
 private:
 
     std::string _id;  // Unique id of the resource
-	std::string _resourceName;
 
     size_t _size;  // The size of the resource in bytes
 
