@@ -281,7 +281,7 @@ C3DRenderChannel* C3DModel::getRenderChannel()
 	unsigned int partCount = _mesh->getPartCount();
 
     C3DMaterial::TechniqueUsage techUsage =
-        _node->get3DScene()->isInShadowPass() ? C3DMaterial::TECH_USAGE_SHADOWMAP : C3DMaterial::TECH_USAGE_SCREEN;
+        _node->getScene()->isInShadowPass() ? C3DMaterial::TECH_USAGE_SHADOWMAP : C3DMaterial::TECH_USAGE_SCREEN;
 
     if (partCount == 0)
     {
@@ -409,10 +409,10 @@ void C3DModel::applyInternalParam(C3DPass* pass)
 
 void C3DModel::applyFogParam(C3DPass* pass)
 {
-	if (_node == NULL || _node->get3DScene() == NULL)
+	if (_node == NULL || _node->getScene() == NULL)
 		return;
 
-	const C3DEnvConf& env = _node->get3DScene()->getLayer()->getEnvConf();
+	const C3DEnvConf& env = _node->getScene()->getLayer()->getEnvConf();
 	pass->getParameter("u_fogcolor")->setValue(&env._fogColor);
 	//C3DVector4 fogparam(env._fogDensity, env._fogStart, env._fogEnd, (float)((int)env._fogType));
 	pass->getParameter("u_fogparam")->setValue(&env._fogParam);
@@ -431,8 +431,8 @@ void C3DModel::applyLightParam(C3DPass* pass)
 
     char paraName[128];
     int i;
-    for (i = 0; i < _node->get3DScene()->getLightCount(); i++) {
-        C3DLight* light = _node->get3DScene()->getLight(i);
+    for (i = 0; i < _node->getScene()->getLightCount(); i++) {
+        C3DLight* light = _node->getScene()->getLight(i);
 		if (!light->isLightEnable())
 			continue;
 		C3DLightComponent* lightComp = light->getComponent();
@@ -547,7 +547,7 @@ void C3DModel::applyLightParam(C3DPass* pass)
 
 	if ( pass->getParameter( "u_ambientColor" ) != NULL )
 	{
-		pass->getParameter( "u_ambientColor" )->setValue( getNode()->get3DScene()->getAmbientColor() );
+		pass->getParameter( "u_ambientColor" )->setValue( getNode()->getScene()->getAmbientColor() );
 	}
 }
 
@@ -561,7 +561,7 @@ void C3DModel::applyShadowMap(C3DPass* pass)
     if (nMaxShadowMap <= 0)
         return;
 
-    C3DShadowMap* shadowMap = _node->get3DScene()->getActiveShadowMap();
+    C3DShadowMap* shadowMap = _node->getScene()->getActiveShadowMap();
     if (!shadowMap || !shadowMap->active())
         return;
 
@@ -616,7 +616,7 @@ void C3DModel::draw(void)
 	bool bStatEnable = C3DStat::getInstance()->isStatEnable();
 
 	C3DMaterial::TechniqueUsage techUsage =
-		_node->get3DScene()->isInShadowPass() ? C3DMaterial::TECH_USAGE_SHADOWMAP : C3DMaterial::TECH_USAGE_SCREEN;
+		_node->getScene()->isInShadowPass() ? C3DMaterial::TECH_USAGE_SHADOWMAP : C3DMaterial::TECH_USAGE_SCREEN;
 
 	if ( partCount == 0 )
 	{
@@ -672,7 +672,7 @@ void C3DModel::draw(void)
 void C3DModel::channelDrawPart( int partIndex )
 {
 	C3DMaterial::TechniqueUsage techUsage =
-		getNode()->get3DScene()->isInShadowPass() ? C3DMaterial::TECH_USAGE_SHADOWMAP : C3DMaterial::TECH_USAGE_SCREEN;
+		getNode()->getScene()->isInShadowPass() ? C3DMaterial::TECH_USAGE_SHADOWMAP : C3DMaterial::TECH_USAGE_SCREEN;
 
 	C3DMaterial* material = getMaterial(partIndex);
 	MeshPart* meshPart = _mesh->getPart(partIndex);

@@ -67,7 +67,7 @@ public:
 
 	void setID(std::string& id);
 
-	const std::string& getResourceName(void) const;
+	std::string getResourceName(void) const;
 
     const C3DResource::State getState(void) const;
 

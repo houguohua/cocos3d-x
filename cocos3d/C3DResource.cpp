@@ -44,7 +44,7 @@ const C3DResource::State C3DResource::getState(void) const
 	return _state;
 }
 
-const std::string& C3DResource::getResourceName(void) const
+std::string C3DResource::getResourceName(void) const
 {
 	return _resourceName;
 }
@@ -70,7 +70,7 @@ void C3DResource::update(long elapsedTime)
 	{
 	case C3DResource::State_Init:
 		{
-			if(this->getReferenceCount()>1)
+			if(this->retainCount()>1)
 			{
 				_state = State_Used;
 			}
