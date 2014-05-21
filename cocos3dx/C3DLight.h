@@ -65,15 +65,15 @@ public:
      */
     C3DNode::Type getType() const { return C3DNode::NodeType_Light; }
 
-	/**
-     * Returns true if this light is enable.
-     */
-	bool isLightEnable() const { return _enable; }
+	///**
+ //    * Returns true if this light is enable.
+ //    */
+	//bool isLightEnable() const { return _enable; }
 
-	/**
-     * Sets light enable.
-     */
-	void setLightEnable(bool enable) { _enable = enable; }
+	///**
+ //    * Sets light enable.
+ //    */
+	//void setLightEnable(bool enable) { _enable = enable; }
 
 	/**
      * Gets C3DLightComponent.
@@ -109,7 +109,7 @@ protected:
     C3DLight(const std::string& strId);
 
 	C3DLightComponent* _component;
-	bool _enable;
+	//bool _enable; change to use _active
 };
 
 /**

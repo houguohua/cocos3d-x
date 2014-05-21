@@ -114,11 +114,6 @@ public:
     bool isStarted() const;
 
 	/**
-     * is particle active ?
-     */
-    bool isActive() const;
-
-	/**
      * update routine
      */
     virtual void update(long elapsedTime);
@@ -226,6 +221,8 @@ private:
     long _timeLast; // particle system last time
     long _timeRunning; // particle system running time
 	long _timeStart; // particle system start time
+
+    bool _isVisibleByCamera;
 
 	C3DParticleEmitter* _emitter;
     C3DParticleRender* _render;

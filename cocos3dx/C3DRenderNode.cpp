@@ -112,8 +112,8 @@ void C3DRenderNode::reload()
 
 void C3DRenderNode::draw()
 {
-	if(_visible == false)
-		return;
+    if(!isVisible())
+        return;
 
 	if (_isVisibleByCamera)
 	{
@@ -140,9 +140,12 @@ void C3DRenderNode::draw()
 */
 void C3DRenderNode::update(long elapsedTime)
 {
+    if (!isActive())
+        return;
+
 	//C3DNode::update(deltatime);
     getAABB();
-	_isVisibleByCamera = (_scene->getActiveCamera()->isVisible(*_bb));
+	_isVisibleByCamera = _scene->getActiveCamera()->isVisible(*_bb);
 
 	if(_attachNodes.size()>0)
 	{
@@ -218,7 +221,7 @@ void C3DRenderNode::detach(const std::string& nodeName, C3DNode* attachment)
 
 void C3DRenderNode::drawCollitionBox()
 {
-	if(_visible == false)
+	if(!isVisible())
 		return;
 
 	std::vector<C3DCollitionBox*>::iterator iter = m_collitionBoxs.begin();

@@ -46,7 +46,7 @@ namespace cocos3d
 {
 C3DParticleSystem::C3DParticleSystem(const std::string& id):
          C3DNode(id),
-		 _particleCountMax(1000), _validParticleCount(0)
+		 _particleCountMax(1000), _validParticleCount(0),_isVisibleByCamera(true)
 {
 	_emitter = new C3DParticleEmitter(this);
     _render = new C3DParticleRender(this);
@@ -352,17 +352,18 @@ bool C3DParticleSystem::isStarted() const
     return _started;
 }
 
-bool C3DParticleSystem::isActive() const
-{
-    return true;
-}
-
 void C3DParticleSystem::update(long elapsedTime)
 {
     if (!isActive())
-    {
         return;
-    }
+
+    getAABB();
+
+    /*if (_scene->getActiveCamera()->isVisible(*_bb))
+        return;*/
+
+    setVisible(_scene->getActiveCamera()->isVisible(*_bb));
+    
 
 	if (_particles)
 	{
@@ -402,29 +403,17 @@ void C3DParticleSystem::update(long elapsedTime)
 
 void C3DParticleSystem::draw()
 {
-    if (!isActive())
-    {
+    if(!isVisible())
         return;
-    }
 
-	STAT_INC_TRIANGLE_TOTAL(_validParticleCount * 2);
-	/*static C3DAABB box;
-	static C3DVector3 pos;
-	pos = getTranslationWorld();
-	box._min = pos + C3DVector3(-1.0f, -1.0f, -1.0f);
-	box._max = pos + C3DVector3(1.0f, 1.0f, 1.0f);*/
+    STAT_INC_TRIANGLE_TOTAL(_validParticleCount * 2);
 
-	getAABB();
-
-	if (!_scene->getActiveCamera()->isVisible(*_bb))
-		return;
-
-	if(_particles && _render && _render->isVisible())
+    if(_particles && _render && _render->isVisible())
     {
-		STAT_INC_TRIANGLE_DRAW(_validParticleCount * 2);
-		STAT_INC_DRAW_CALL(1);
+        STAT_INC_TRIANGLE_DRAW(_validParticleCount * 2);
+        STAT_INC_DRAW_CALL(1);
 
-		_render->draw();
+        _render->draw();
     }
 
 	for (size_t i = 0; i < _children.size(); i++)

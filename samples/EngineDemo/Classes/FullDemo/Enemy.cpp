@@ -186,6 +186,17 @@ void Enemy::update(long elapsedTime)
 			mp->setValue(C3DVector4(1.0f, 1.0f, 1.0f, 1.0f));
 		}
 	}
+    else if (isState(_lastState,Enemy::State_Standup))
+    {
+        if(isState(_curState,Enemy::State_Idle))
+        {
+            C3DSprite* sprite = ((C3DSprite*)this->_node);
+            MaterialParameter* mp = sprite->getMaterial("body")->getTechnique(0u)->getPass(0u)->getParameter("u_diffuseColor");
+            mp->setValue(C3DVector4(1.0f, 1.0f, 1.0f, 1.0f));
+            sprite->playAnimationClip("idle");
+            _lastState = Enemy::State_Idle;
+        }
+    }
 }
 
 void Enemy::hurt(float damage, long hurtTime)

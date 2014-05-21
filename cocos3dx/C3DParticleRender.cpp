@@ -312,9 +312,13 @@ void C3DParticleRender::draw()
 
 	_nParticle = 0;
 
-	C3DAABB worldSpaceBox = *(_system->_bb);
-	worldSpaceBox.transform(_system->getViewMatrix());
-	float z = abs( worldSpaceBox.getCenter().z );
+    float z = 0.f;
+    if (_system->_bb)
+    {
+        C3DAABB worldSpaceBox = *(_system->_bb);
+        worldSpaceBox.transform(_system->getViewMatrix());
+        z = abs( worldSpaceBox.getCenter().z );
+    }
 
 	//_model->draw( z );
 
@@ -324,7 +328,7 @@ void C3DParticleRender::draw()
 		C3DRenderChannel* channel = _model->getRenderChannel();
 		if(channel != NULL)
 		{
-			channel->addItem( _model, z );
+			channel->addItem( _model, z, "Particle" );
 		}
 		else
 		{

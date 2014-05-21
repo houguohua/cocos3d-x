@@ -305,6 +305,9 @@ void C3DScene::postDraw()
 // update routine
 void C3DScene::update(long elapsedTime)
 {
+    if (!isActive())
+        return;
+
     //update children then
    // C3DNode::update(elapsedTime);
 
@@ -312,7 +315,7 @@ void C3DScene::update(long elapsedTime)
     for (i = 0; i < _children.size(); ++i)
 	{
 		C3DNode* node = _children[i];
-		if(node->isVisible())
+		//if(node->isVisible())
 			node->update(elapsedTime);
     }
 

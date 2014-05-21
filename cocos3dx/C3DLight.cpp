@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace cocos3d
 {
-C3DLight::C3DLight(const std::string& strId) : C3DNode(strId), _component(NULL), _enable(true)
+C3DLight::C3DLight(const std::string& strId) : C3DNode(strId), _component(NULL)/*, _enable(true)*/
 {
 }
 
@@ -63,6 +63,9 @@ void C3DLight::setComponent(C3DLightComponent* component)
 
 void C3DLight::update(unsigned int deltatime)
 {
+    if (!isActive())
+        return;
+
 	if (_component)
 		_component->update(deltatime);
 }

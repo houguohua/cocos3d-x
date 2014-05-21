@@ -456,7 +456,7 @@ void C3DModel::applyLightParam(C3DPass* pass)
     int i;
     for (i = 0; i < _node->get3DScene()->getLightCount(); i++) {
         C3DLight* light = _node->get3DScene()->getLight(i);
-		if (!light->isLightEnable())
+		if (!light->isActive())
 			continue;
 		C3DLightComponent* lightComp = light->getComponent();
 		if (!lightComp)

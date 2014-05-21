@@ -176,8 +176,8 @@ bool C3DSprite::loadMesh(const std::string& meshName)
 
 void C3DSprite::update(long elapsedTime)
 {
-	if(isVisible() == false)
-		return;
+    if (!isActive())
+        return;
 
 	C3DRenderNode::update(elapsedTime);
 

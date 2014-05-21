@@ -195,7 +195,7 @@ void MaterialTestLayer::setUpLight()
 	C3DVector3 pointLightColor(1.0f, 1.0f, 1.0f);
 	C3DLight* pointLight = C3DLight::create("pointLight");
 	pointLight->setComponent(C3DPointLight::create(pointLightColor, 100));
-	pointLight->setLightEnable(false);
+	pointLight->setActive(false);
 
 	std::string strPointLightUrl = "demores/ball/ball.ckb";
 	cocos3d::C3DStaticObj* pointLightModel = static_cast<cocos3d::C3DStaticObj*>(C3DRenderNodeManager::getInstance()->getResource(strPointLightUrl));
@@ -279,7 +279,7 @@ void MaterialTestLayer::menuCallback( CCObject * pSender )
 		pointLightModelNode->setVisible(false);
 
 	if(pointLight)
-		pointLight->setLightEnable(false);
+		pointLight->setActive(false);
 
     switch (nIdx)
     {
@@ -309,7 +309,7 @@ void MaterialTestLayer::menuCallback( CCObject * pSender )
 			if(pointLightModelNode)
 				pointLightModelNode->setVisible(true);
 			if(pointLight)
-				pointLight->setLightEnable(true);
+				pointLight->setActive(true);
 			break;
     }
 }

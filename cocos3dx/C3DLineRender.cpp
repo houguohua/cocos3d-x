@@ -96,6 +96,9 @@ void C3DLineRender::init( const std::string& materialPath )
 
 void C3DLineRender::update(long elapsedTime)
 {
+    if (!isActive())
+        return;
+
 	C3DNode::update( elapsedTime );
 
 	float timeSecond = (float)elapsedTime *0.001;
@@ -335,7 +338,7 @@ void C3DLineRender::draw()
 			C3DVector3 pos( C3DVector3::zero() );
 	        this->getWorldViewMatrix().getPosition( &pos );
 
-			channel->addItem( _model, pos.z );
+			channel->addItem( _model, pos.z, "LineRender" );
 		}
 		else
 		{

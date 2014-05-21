@@ -35,7 +35,7 @@ THE SOFTWARE.
 namespace cocos3d
 {
 C3DNode::C3DNode()
-	: _scene(NULL),_parent(NULL),_visible(true),
+	: _scene(NULL),_parent(NULL),_visible(true),_active(true),
     _dirtyBits(NODE_DIRTY_ALL), _notifyHierarchyChanged(true), _listeners(NULL)
 {
    _id = "";
@@ -50,7 +50,7 @@ C3DNode::C3DNode()
 }
 
 C3DNode::C3DNode(const std::string& id)
-    : _scene(NULL),_parent(NULL),_visible(true),
+    : _scene(NULL),_parent(NULL),_visible(true),_active(true),
     _dirtyBits(NODE_DIRTY_ALL), _notifyHierarchyChanged(true), _listeners(NULL)
 {
     if (!id.empty())
@@ -232,22 +232,28 @@ C3DNode* C3DNode::findNode(const std::string& id, bool recursive)
 
 void C3DNode::update(long elapsedTime)
 {
+    if(!isActive())
+        return;
+
     size_t i;
     for (i = 0; i < _children.size(); ++i)
 	{
 		C3DNode* node = _children[i];
-		if(node->isVisible())
+		//if(node->isVisible())
 			node->update(elapsedTime);
     }
 }
 
 void C3DNode::draw()
 {
+    if(!isVisible())
+        return;
+
 	size_t i;
     for (i = 0; i < _children.size(); ++i)
 	{
 		C3DNode* node = _children[i];
-		if(node->isVisible())
+		//if(node->isVisible())
 			node->draw();
     }
 }
@@ -620,16 +626,25 @@ void C3DNode::setScreenPos(int x, int y)
     }
 }
 
-bool C3DNode::isVisible() const
-{
-	return _visible;
-}
-
 void C3DNode::setVisible(bool visible)
 {
 	_visible = visible;
 }
 
+bool C3DNode::isVisible() const
+{
+    return _visible;
+}
+
+void C3DNode::setActive(bool active)
+{
+    _active = active;
+}
+
+bool C3DNode::isActive()
+{
+    return _active;
+}
 
 void C3DNode::copyFrom(const C3DTransform* other, C3DNode::CloneContext& context)
 {
@@ -836,7 +851,7 @@ C3DOBB* C3DNode::getOBB()
 
 void C3DNode::drawAABB()
 {
-	if(_visible == false)
+	if(!isVisible())
 		return;
 
 	if(this->getAABB() == NULL)
@@ -849,7 +864,7 @@ void C3DNode::drawAABB()
 
 void C3DNode::drawOBB()
 {
-	if(_visible == false)
+	if(!isVisible())
 		return;
 
     if (_obb.extents.isZero())

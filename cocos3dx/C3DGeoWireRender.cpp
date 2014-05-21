@@ -527,7 +527,7 @@ void C3DGeoWireRender::flush()
 		C3DRenderChannel* channel = _model_3D->getRenderChannel();
 		if(channel != NULL)
 		{
-			channel->addItem( _model_3D, 0 );
+			channel->addItem( _model_3D, 0, "GeoWireRender" );
 		}
 		else
 		{
