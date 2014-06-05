@@ -98,7 +98,7 @@ FacialAnimation.cpp \
 FacialAnimManager.cpp \
 Geo.cpp \
 MaterialParameter.cpp \
-MeshPart.cpp \
+C3DSubMesh.cpp \
 C3DMorph.cpp \
 C3DMorphMesh.cpp \
 C3DMorphModel.cpp \

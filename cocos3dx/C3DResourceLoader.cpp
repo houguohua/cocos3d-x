@@ -23,7 +23,7 @@ THE SOFTWARE.
 #include "Base.h"
 #include "C3DResourceLoader.h"
 #include "C3DStream.h"
-#include "MeshPart.h"
+#include "C3DSubMesh.h"
 #include "BonePart.h"
 #include "C3DMorph.h"
 #include "C3DScene.h"
@@ -66,7 +66,7 @@ THE SOFTWARE.
 #define BUNDLE_TYPE_CAMERA              32
 #define BUNDLE_TYPE_LIGHT               33
 #define BUNDLE_TYPE_MESH                34
-#define BUNDLE_TYPE_MESHPART            35
+#define BUNDLE_TYPE_C3DSubMesh            35
 #define BUNDLE_TYPE_MESHSKIN            36
 
 // For sanity checking string reads
@@ -529,9 +529,9 @@ bool C3DResourceLoader::reloadNode(C3DNode* context)
 			// Create mesh parts
 			for (unsigned int i = 0; i < meshData->parts.size(); ++i)
 			{
-				MeshPartData* partData = meshData->parts[i];
+				SubMeshData* partData = meshData->parts[i];
 
-				MeshPart* part = mesh->addPart(partData->primitiveType, partData->indexFormat, partData->indexCount, false);
+				C3DSubMesh* part = mesh->addSubMesh(partData->primitiveType, partData->indexFormat, partData->indexCount, false);
 				if (part == NULL)
 				{
 					LOG_ERROR_VARG("Failed to create mesh part (i=%d): %s", i, nodeID.c_str());
@@ -1378,9 +1378,9 @@ C3DMesh* C3DResourceLoader::loadMesh(const std::string& nodeId,bool hasMorph)
     // Create mesh parts
     for (unsigned int i = 0; i < meshData->parts.size(); ++i)
     {
-        MeshPartData* partData = meshData->parts[i];
+        SubMeshData* partData = meshData->parts[i];
 
-        MeshPart* part = mesh->addPart(partData->primitiveType, partData->indexFormat, partData->indexCount, false);
+        C3DSubMesh* part = mesh->addSubMesh(partData->primitiveType, partData->indexFormat, partData->indexCount, false);
         if (part == NULL)
         {
             LOG_ERROR_VARG("Failed to create mesh part (i=%d): %s", i, nodeId.c_str());
@@ -1439,13 +1439,13 @@ MeshData* C3DResourceLoader::readMeshData()
     }
 
     // Read mesh parts
-    unsigned int meshPartCount;
-    if (_stream->read(&meshPartCount, 4, 1) != 1)
+    unsigned int subMeshCount;
+    if (_stream->read(&subMeshCount, 4, 1) != 1)
     {
         SAFE_DELETE(meshData);
         return NULL;
     }
-    for (unsigned int i = 0; i < meshPartCount; ++i)
+    for (unsigned int i = 0; i < subMeshCount; ++i)
     {
         // Read primitive type, index format and index count
         unsigned int pType, iFormat, iByteCount;
@@ -1457,7 +1457,7 @@ MeshData* C3DResourceLoader::readMeshData()
             return NULL;
         }
 
-        MeshPartData* partData = new MeshPartData();
+        SubMeshData* partData = new SubMeshData();
         meshData->parts.push_back(partData);
 
         partData->primitiveType = (PrimitiveType)pType;

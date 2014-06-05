@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 #include "C3DSkinModel.h"
 #include "C3DMesh.h"
-#include "MeshPart.h"
+#include "C3DSubMesh.h"
 #include "C3DMeshSkin.h"
 #include "C3DTechnique.h"
 #include "C3DPass.h"
@@ -66,76 +66,12 @@ void C3DSkinModel::setSkin(C3DMeshSkin* skin)
     }
 }
 
-//void C3DSkinModel::draw(void)
-//{
-//    bool bStatEnable = C3DStat::getInstance()->isStatEnable();
-//    C3DMaterial::TechniqueUsage techUsage =
-//        getNode()->get3DScene()->isInShadowPass() ? C3DMaterial::TECH_USAGE_SHADOWMAP : C3DMaterial::TECH_USAGE_SCREEN;
-//
-//    unsigned int partCount = _mesh->getPartCount();
-//    if (partCount == 0)
-//    {
-//        // No mesh parts (index buffers).
-//        if (_material)
-//        {
-//            C3DTechnique* technique = _material->getTechnique(techUsage);
-//
-//            if (!technique)
-//                return;
-//
-//
-//			C3DRenderChannel* channel = technique->getChannel();
-//			if (channel == NULL)
-//			{
-//				RenderChannelManager* mgr = C3DRenderSystem::getInstance()->getRenderChannelManager();
-//				channel = mgr->getRenderChannel(RenderChannelManager::ChannelOpacity);
-//			}
-//			if ( channel != NULL )
-//			{
-//				channel->addItem( this, distanceToCamera() );
-//			}
-//
-//        }
-//    }
-//    else
-//    {
-//        for (unsigned int i = 0; i < partCount; ++i)
-//        {
-//            MeshPart* meshPart = _mesh->getPart(i);
-//
-//            // Get the material for this mesh part.
-//            C3DMaterial* material = getMaterial(i);
-//            if (material)
-//            {
-//                C3DTechnique* technique = material->getTechnique(techUsage);
-//
-//                if (!technique)
-//                    continue;
-//
-//				C3DRenderChannel* channel = technique->getChannel();
-//				if (channel == NULL)
-//				{
-//					RenderChannelManager* mgr = C3DRenderSystem::getInstance()->getRenderChannelManager();
-//					channel = mgr->getRenderChannel(RenderChannelManager::ChannelOpacity);
-//				}
-//				if ( channel != NULL )
-//				{
-//					channel->addItem( this, distanceToCamera() );
-//				}
-//
-//				break;
-//
-//            }
-//        }
-//    }
-//}
-
 void C3DSkinModel::draw()
 {
     C3DMaterial::TechniqueUsage techUsage =
         getNode()->get3DScene()->isInShadowPass() ? C3DMaterial::TECH_USAGE_SHADOWMAP : C3DMaterial::TECH_USAGE_SCREEN;
 
-    unsigned int partCount = _mesh->getPartCount();
+    unsigned int partCount = _mesh->getSubMeshCount();
     if (partCount == 0)
     {
         // No mesh parts (index buffers).
@@ -182,7 +118,7 @@ void C3DSkinModel::draw()
     {
         for (unsigned int i = 0; i < partCount; ++i)
         {
-            MeshPart* meshPart = _mesh->getPart(i);
+            C3DSubMesh* C3DSubMesh = _mesh->getSubMesh(i);
 
             // Get the material for this mesh part.
             C3DMaterial* material = getMaterial(i);
@@ -198,7 +134,7 @@ void C3DSkinModel::draw()
 
                 for (unsigned int j = 0; j < passCount; ++j)
                 {
-                    STAT_INC_TRIANGLE_DRAW(meshPart->getTriangleCount());
+                    STAT_INC_TRIANGLE_DRAW(C3DSubMesh->getTriangleCount());
 
                     C3DPass* pass = technique->getPass(j);
                     //applyLightParam(pass);
@@ -206,7 +142,7 @@ void C3DSkinModel::draw()
 					applyInternalParam(pass);
 
                     pass->bind();
-                    GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshPart->_indexBuffer) );
+                    GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, C3DSubMesh->_indexBuffer) );
 
 					C3DMeshSkin * skin = this->getSkin();
 					if(skin != NULL)
@@ -225,7 +161,7 @@ void C3DSkinModel::draw()
 							{
 								unsigned int indexCount = bonePart->_numVertexIndex;
 								unsigned int indexSize = 0;
-								switch (meshPart->getIndexFormat())
+								switch (C3DSubMesh->getIndexFormat())
 								{
 								case IndexFormat_INDEX8:
 									indexSize = 1;
@@ -240,12 +176,12 @@ void C3DSkinModel::draw()
 
 								for (unsigned int k = 0; k < indexCount; k += 3)
 								{
-									GL_ASSERT( glDrawElements(GL_LINE_LOOP, 3, meshPart->getIndexFormat(), ((const GLvoid*)(k*indexSize))) );
+									GL_ASSERT( glDrawElements(GL_LINE_LOOP, 3, C3DSubMesh->getIndexFormat(), ((const GLvoid*)(k*indexSize))) );
 								}
 							}
 							else
 							{
-								GL_ASSERT( glDrawElements(meshPart->getPrimitiveType(),bonePart->_numVertexIndex , meshPart->getIndexFormat(), &((const GLushort*)0)[bonePart->_offsetVertexIndex]));
+								GL_ASSERT( glDrawElements(C3DSubMesh->getPrimitiveType(),bonePart->_numVertexIndex , C3DSubMesh->getIndexFormat(), &((const GLushort*)0)[bonePart->_offsetVertexIndex]));
 							}
 						}
 					}

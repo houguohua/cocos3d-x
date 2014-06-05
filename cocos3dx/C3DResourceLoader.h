@@ -39,7 +39,7 @@ class C3DAnimation;
 
 class BonePartData;
 class MeshSkinData;
-class MeshPartData;
+class SubMeshData;
 class MeshData;
 
 class C3DTransform;

@@ -59,14 +59,16 @@ public:
 
     C3DMesh* getMesh() const;
 
-    unsigned int getMeshPartCount() const;
+    unsigned int getSubMeshCount() const;
 
     C3DMaterial* getMaterial(int partIndex = -1);
+
+	virtual void draw(){}
 
     /**
      * Sets a material to be used for drawing this C3DModel.
      *
-     * The specified C3DMaterial is applied for the MeshPart at the given index in
+     * The specified C3DMaterial is applied for the C3DSubMesh at the given index in
      * this Model's C3DMesh. A partIndex of -1 sets a shared C3DMaterial for
      * all mesh parts, whereas a value of 0 or greater sets the C3DMaterial for the
      * specified mesh part only.
@@ -97,16 +99,7 @@ public:
 
     C3DNode* getNode() const;
 
-    /**
-     * Draws this mesh instance.
-     *
-     * This method binds the vertex buffer and index buffers for the C3DMesh and
-     * all of its MeshParts and draws the mesh geometry. Any other state
-     * neccessary to render the C3DMesh, such as rendering states, shader state,
-     * and so on, should be set up before calling this method.
-     *
-     */
-	virtual void draw(void);
+
 
 	C3DRenderChannel* getRenderChannel();
 
@@ -148,7 +141,7 @@ protected:
 
 	float distanceToCamera(void);
 
-	void channelDrawPart( int partIndex );
+
 
 private:
     /**

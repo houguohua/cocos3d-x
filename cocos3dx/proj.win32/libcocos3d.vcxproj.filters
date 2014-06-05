@@ -287,9 +287,6 @@
     <ClCompile Include="..\C3DVertexFormat.cpp">
       <Filter>mesh</Filter>
     </ClCompile>
-    <ClCompile Include="..\MeshPart.cpp">
-      <Filter>mesh</Filter>
-    </ClCompile>
     <ClCompile Include="..\C3DProfile.cpp">
       <Filter>performance</Filter>
     </ClCompile>
@@ -299,6 +296,9 @@
     </ClCompile>
     <ClCompile Include="..\C3Dneon_matrix_impl.c">
       <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\C3DSubMesh.cpp">
+      <Filter>mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -597,9 +597,6 @@
     <ClInclude Include="..\C3DVertexFormat.h">
       <Filter>mesh</Filter>
     </ClInclude>
-    <ClInclude Include="..\MeshPart.h">
-      <Filter>mesh</Filter>
-    </ClInclude>
     <ClInclude Include="..\Vertex.h">
       <Filter>common</Filter>
     </ClInclude>
@@ -612,6 +609,9 @@
     </ClInclude>
     <ClInclude Include="..\C3Dneon_matrix_impl.h">
       <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\C3DSubMesh.h">
+      <Filter>mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

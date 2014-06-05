@@ -23,7 +23,7 @@ THE SOFTWARE.
 #include "Base.h"
 #include "C3DModel.h"
 #include "C3DMesh.h"
-#include "MeshPart.h"
+#include "C3DSubMesh.h"
 #include "C3DMeshSkin.h"
 #include "C3DScene.h"
 #include "C3DTechnique.h"
@@ -95,7 +95,7 @@ void C3DModel::setMesh(C3DMesh* mesh)
 			_mesh = mesh;
 			mesh->retain();
 
-			_partCount = mesh->getPartCount();
+			_partCount = mesh->getSubMeshCount();
 		}
     }
 }
@@ -105,14 +105,14 @@ C3DMesh* C3DModel::getMesh() const
     return _mesh;
 }
 
-unsigned int C3DModel::getMeshPartCount() const
+unsigned int C3DModel::getSubMeshCount() const
 {
-    return _mesh->getPartCount();
+    return _mesh->getSubMeshCount();
 }
 
 C3DMaterial* C3DModel::getMaterial(int partIndex)
 {
-    assert(partIndex == -1 || (partIndex >= 0 && partIndex < (int)getMeshPartCount()));
+    assert(partIndex == -1 || (partIndex >= 0 && partIndex < (int)getSubMeshCount()));
 
     C3DMaterial* m = NULL;
 
@@ -136,7 +136,7 @@ C3DMaterial* C3DModel::getMaterial(int partIndex)
 
 void C3DModel::setMaterial(C3DMaterial* material, int partIndex)
 {
-    assert(partIndex == -1 || (partIndex >= 0 && partIndex < (int)getMeshPartCount()));
+    assert(partIndex == -1 || (partIndex >= 0 && partIndex < (int)getSubMeshCount()));
 
     C3DMaterial* oldMaterial = NULL;
 
@@ -151,7 +151,7 @@ void C3DModel::setMaterial(C3DMaterial* material, int partIndex)
             _material->retain();
         }
     }
-    else if (partIndex >= 0 && partIndex < (int)getMeshPartCount())
+    else if (partIndex >= 0 && partIndex < (int)getSubMeshCount())
     {
         // Ensure mesh part count is up-to-date.
         validatePartCount();
@@ -265,14 +265,14 @@ C3DMaterial* C3DModel::setDefaultMaterial(const std::string& path,int partIndex)
 
 bool C3DModel::removeMaterial(int partIndex)
 {
-	assert(partIndex == -1 || (partIndex >= 0 && partIndex < (int)getMeshPartCount()));
+	assert(partIndex == -1 || (partIndex >= 0 && partIndex < (int)getSubMeshCount()));
 
 	if (partIndex == -1)
 	{
 		SAFE_RELEASE(_material);
 		return true;
 	}
-	else if (partIndex >= 0 && partIndex < (int)getMeshPartCount())
+	else if (partIndex >= 0 && partIndex < (int)getSubMeshCount())
 	{
 		validatePartCount();
 
@@ -301,7 +301,7 @@ C3DRenderChannel* C3DModel::getRenderChannel()
 {
 	C3DRenderChannel* channel = NULL;
 
-	unsigned int partCount = _mesh->getPartCount();
+	unsigned int partCount = _mesh->getSubMeshCount();
 
     C3DMaterial::TechniqueUsage techUsage =
         _node->get3DScene()->isInShadowPass() ? C3DMaterial::TECH_USAGE_SHADOWMAP : C3DMaterial::TECH_USAGE_SCREEN;
@@ -377,7 +377,7 @@ void C3DModel::setNode(C3DNode* node)
 
 void C3DModel::validatePartCount()
 {
-    unsigned int partCount = _mesh->getPartCount();
+    unsigned int partCount = _mesh->getSubMeshCount();
 
     if (_partCount != partCount)
     {
@@ -395,7 +395,7 @@ void C3DModel::validatePartCount()
         }
 
         // Update local part count.
-        _partCount = _mesh->getPartCount();
+        _partCount = _mesh->getSubMeshCount();
     }
 }
 
@@ -636,117 +636,7 @@ void C3DModel::setMaterialName(const std::string& matName)
 	_materialName = matName;
 }
 
-void C3DModel::draw(void)
-{
-	unsigned int partCount = _mesh->getPartCount();
 
-	C3DMaterial::TechniqueUsage techUsage =
-		_node->get3DScene()->isInShadowPass() ? C3DMaterial::TECH_USAGE_SHADOWMAP : C3DMaterial::TECH_USAGE_SCREEN;
-
-	if ( partCount == 0 )
-	{
-		// No mesh parts (index buffers).
-		if (_material)
-		{
-			C3DTechnique* technique = _material->getTechnique(techUsage);
-
-			unsigned int passCount = technique->getPassCount();
-			
-			STAT_INC_DRAW_CALL(passCount);
-
-			for (unsigned int i = 0; i < passCount; ++i)
-			{
-				STAT_INC_TRIANGLE_DRAW(_mesh->getTriangleCount());
-
-				C3DPass* pass = technique->getPass(i);
-				//applyLightParam(pass);
-				//applyShadowMap(pass);
-				applyInternalParam(pass);
-				pass->bind();
-				GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0) );
-				if (_wireframe && (_mesh->getPrimitiveType() == GL_TRIANGLES || _mesh->getPrimitiveType() == GL_TRIANGLE_STRIP))
-				{
-					unsigned int vertexCount = _mesh->getVertexCount();
-					for (unsigned int j = 0; j < vertexCount; j += 3)
-					{
-						GL_ASSERT( glDrawArrays(GL_LINE_LOOP, j, 3) );
-					}
-				}
-				else
-				{
-					GL_ASSERT( glDrawArrays(_mesh->getPrimitiveType(), 0, _mesh->getVertexCount()) );
-				}
-
-				pass->unbind();
-			}
-		}
-	}
-	else
-	{
-		for ( size_t i = 0; i < partCount; ++i )
-		{
-			channelDrawPart( i );
-		}
-	}
-}
-
-void C3DModel::channelDrawPart( int partIndex )
-{
-	C3DMaterial::TechniqueUsage techUsage =
-		getNode()->get3DScene()->isInShadowPass() ? C3DMaterial::TECH_USAGE_SHADOWMAP : C3DMaterial::TECH_USAGE_SCREEN;
-
-	C3DMaterial* material = getMaterial(partIndex);
-	MeshPart* meshPart = _mesh->getPart(partIndex);
-
-	if (material)
-	{
-		C3DTechnique* technique = material->getTechnique(techUsage);
-		unsigned int passCount = technique->getPassCount();
-
-		STAT_INC_DRAW_CALL(passCount);
-
-		for (unsigned int j = 0; j < passCount; ++j)
-		{
-			STAT_INC_TRIANGLE_DRAW(meshPart->getTriangleCount());
-
-			C3DPass* pass = technique->getPass(j);
-			//applyLightParam(pass);
-			//applyShadowMap(pass);
-			applyInternalParam(pass);
-			pass->bind();
-			GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshPart->getIndexBuffer()) );
-
-			// check whether show the wireframe
-			if (_wireframe && (_mesh->getPrimitiveType() == PrimitiveType_TRIANGLES || _mesh->getPrimitiveType() == PrimitiveType_TRIANGLE_STRIP))
-			{
-				unsigned int indexSize = 0;
-				switch (meshPart->getIndexFormat())
-				{
-				case IndexFormat_INDEX8:
-					indexSize = 1;
-					break;
-				case IndexFormat_INDEX16:
-					indexSize = 2;
-					break;
-				case IndexFormat_INDEX32:
-					indexSize = 4;
-					break;
-				}
-
-				int indexCount = meshPart->getIndexCount();
-				for (int k = 0; k < indexCount; k += 3)
-				{
-					GL_ASSERT( glDrawElements(GL_LINE_LOOP, 3, meshPart->getIndexFormat(), ((const GLvoid*)(k*indexSize))));
-				}
-			}
-			else
-			{
-				GL_ASSERT( glDrawElements(meshPart->getPrimitiveType(), meshPart->getIndexCount(), meshPart->getIndexFormat(), 0) );
-			}
-			pass->unbind();
-		}
-	}
-}
 
 float C3DModel::distanceToCamera(void)
 {

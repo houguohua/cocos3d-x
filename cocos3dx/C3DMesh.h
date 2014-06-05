@@ -28,12 +28,12 @@ THE SOFTWARE.
 namespace cocos3d
 {
 class C3DVertexFormat;
-class MeshPart;
+class C3DSubMesh;
 class C3DAABB;
 
 /**
  * Defines a mesh supporting various vertex formats and 1 or more
- * MeshPart(s) to define how the vertices are connected.
+ * C3DSubMesh(s) to define how the vertices are connected.
  */
 class C3DMesh : public C3DBaseMesh
 {
@@ -61,11 +61,11 @@ public:
 
     virtual void setVertexData(void* vertexData, unsigned int vertexStart = 0, unsigned int vertexCount = 0);
 
-    MeshPart* addPart(PrimitiveType primitiveType, IndexFormat indexFormat, unsigned int indexCount, bool dynamic = false);
+    C3DSubMesh* addSubMesh(PrimitiveType primitiveType, IndexFormat indexFormat, unsigned int indexCount, bool dynamic = false);
 
-    unsigned int getPartCount() const;
+    unsigned int getSubMeshCount() const;
 
-    MeshPart* getPart(unsigned int index);
+    C3DSubMesh* getSubMesh(unsigned int index);
 
     virtual unsigned int getTriangleCount() const;
 
@@ -85,8 +85,8 @@ protected:
     std::string _url;
     unsigned int _vertexCount;
     VertexBufferHandle _vertexBuffer;
-    unsigned int _partCount;
-    MeshPart** _parts;
+    unsigned int _subMeshCount;
+    C3DSubMesh** _subMeshs;
     bool _dynamic;
 	C3DAABB* _boundingBox;
 };

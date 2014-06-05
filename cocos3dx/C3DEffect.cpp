@@ -38,12 +38,12 @@ static C3DEffect* __currentEffect = NULL;
 
 C3DEffect::C3DEffect(const std::string& name) : C3DResource(name),_program(0)
 {
-	LOG_TRACE_VARG("+Effect: %s", name.c_str());
+	//LOG_TRACE_VARG("+Effect: %s", name.c_str());
 }
 
 C3DEffect::~C3DEffect()
 {
-	LOG_TRACE_VARG("-Effect: %s with ID:%d", getID().c_str(), _program);
+	//LOG_TRACE_VARG("-Effect: %s with ID:%d", getID().c_str(), _program);
 
     // Free uniforms.
     for (std::map<std::string, Uniform*>::iterator itr = _uniforms.begin(); itr != _uniforms.end(); itr++)

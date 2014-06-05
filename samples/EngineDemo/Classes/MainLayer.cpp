@@ -121,8 +121,8 @@ cocos2d::CCScene* MainLayer::scene()
 
 void MainLayer::closeCallback(CCObject* pSender)
 {
-    //CCDirector::sharedDirector()->end();
-	cocos3d::C3DRenderSystem::getInstance()->reload();
+	Director::getInstance()->end();
+	
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif

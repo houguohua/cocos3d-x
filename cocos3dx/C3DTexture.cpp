@@ -91,7 +91,9 @@ bool C3DTexture::innerInit2D(const std::string& path, bool generateMipmaps)
 
 	SAFE_RELEASE(_2DTex);
 
-    if (generateMipmaps)
+	Texture2D::PixelFormat  format = tex2D->getPixelFormat();
+
+    if (generateMipmaps && format != Texture2D::PixelFormat::PVRTC4A)
         tex2D->generateMipmap();
 
     tex2D->retain();

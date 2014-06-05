@@ -222,7 +222,6 @@ private:
     long _timeRunning; // particle system running time
 	long _timeStart; // particle system start time
 
-    bool _isVisibleByCamera;
 
 	C3DParticleEmitter* _emitter;
     C3DParticleRender* _render;

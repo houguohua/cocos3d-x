@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 #include "Base.h"
 #include "C3DMesh.h"
-#include "MeshPart.h"
+#include "C3DSubMesh.h"
 #include "C3DVertexFormat.h"
 #include "C3DAABB.h"
 
@@ -32,8 +32,8 @@ C3DMesh::C3DMesh(C3DVertexFormat* vertexFormat, PrimitiveType primitiveType)
     :C3DBaseMesh(vertexFormat, primitiveType),
 	 _vertexCount(0), 
 	 _vertexBuffer(0),
-	 _partCount(0),
-	 _parts(NULL),
+	 _subMeshCount(0),
+	 _subMeshs(NULL),
 	 _dynamic(false),
 	 _boundingBox(NULL)
 {
@@ -43,11 +43,11 @@ C3DMesh::C3DMesh(C3DVertexFormat* vertexFormat, PrimitiveType primitiveType)
 C3DMesh::~C3DMesh()
 {
 	//LOG_TRACE_VARG("%p -C3DMesh", this);
-	for (unsigned int i = 0; i < _partCount; ++i)
+	for (unsigned int i = 0; i < _subMeshCount; ++i)
 	{
-		SAFE_DELETE(_parts[i]);
+		SAFE_DELETE(_subMeshs[i]);
 	}
-	SAFE_DELETE_ARRAY(_parts);
+	SAFE_DELETE_ARRAY(_subMeshs);
 
 	if (_vertexBuffer)
 	{
@@ -60,14 +60,14 @@ C3DMesh::~C3DMesh()
 
 void C3DMesh::reload()
 {
-	for (unsigned int i = 0; i < _partCount; ++i)
+	for (unsigned int i = 0; i < _subMeshCount; ++i)
     {
-		_parts[i]->reset();
-        SAFE_DELETE(_parts[i]);
+		_subMeshs[i]->reset();
+        SAFE_DELETE(_subMeshs[i]);
     }
 
-	_partCount = 0;
-    SAFE_DELETE_ARRAY(_parts);
+	_subMeshCount = 0;
+    SAFE_DELETE_ARRAY(_subMeshs);
 
     _vertexBuffer = 0;
 	
@@ -167,10 +167,10 @@ void C3DMesh::setVertexData(void* vertexData, unsigned int vertexStart, unsigned
 unsigned int C3DMesh::getTriangleCount() const
 {
     int nTriangle = 0;
-    if (_partCount > 0)
+    if (_subMeshCount > 0)
     {
-        for (unsigned int i = 0; i < _partCount; i++) {
-            nTriangle += _parts[i]->getTriangleCount();
+        for (unsigned int i = 0; i < _subMeshCount; i++) {
+            nTriangle += _subMeshs[i]->getTriangleCount();
         }
     }
     else
@@ -183,37 +183,37 @@ unsigned int C3DMesh::getTriangleCount() const
     return nTriangle;
 }
 
-MeshPart* C3DMesh::addPart(PrimitiveType primitiveType, IndexFormat indexFormat, unsigned int indexCount, bool dynamic)
+C3DSubMesh* C3DMesh::addSubMesh(PrimitiveType primitiveType, IndexFormat indexFormat, unsigned int indexCount, bool dynamic)
 {
-    MeshPart* part = MeshPart::create(this, _partCount, primitiveType, indexFormat, indexCount, dynamic);
+    C3DSubMesh* part = C3DSubMesh::create(this, _subMeshCount, primitiveType, indexFormat, indexCount, dynamic);
     if (part)
     {
         // Increase size of part array and copy old subets into it.
-        MeshPart** oldParts = _parts;
-        _parts = new MeshPart*[_partCount + 1];
-        for (unsigned int i = 0; i < _partCount; ++i)
+        C3DSubMesh** olds = _subMeshs;
+        _subMeshs = new C3DSubMesh*[_subMeshCount + 1];
+        for (unsigned int i = 0; i < _subMeshCount; ++i)
         {
-            _parts[i] = oldParts[i];
+            _subMeshs[i] = olds[i];
         }
 
         // Add new part to array.
-        _parts[_partCount++] = part;
+        _subMeshs[_subMeshCount++] = part;
 
         // Delete old part array.
-        SAFE_DELETE_ARRAY(oldParts);
+        SAFE_DELETE_ARRAY(olds);
     }
 
     return part;
 }
 
-unsigned int C3DMesh::getPartCount() const
+unsigned int C3DMesh::getSubMeshCount() const
 {
-    return _partCount;
+    return _subMeshCount;
 }
 
-MeshPart* C3DMesh::getPart(unsigned int index)
+C3DSubMesh* C3DMesh::getSubMesh(unsigned int index)
 {
-    return _parts[index];
+    return _subMeshs[index];
 }
 
 }

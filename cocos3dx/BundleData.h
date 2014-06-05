@@ -30,7 +30,7 @@ THE SOFTWARE.
 namespace cocos3d
 {
 class C3DMeshSkin;
-class MeshPartData;
+class SubMeshData;
 class C3DVertexFormat;
 class C3DVertexElement;
 class C3DAABB;
@@ -53,7 +53,7 @@ public:
 	C3DAABB* boundingBox;
 
     PrimitiveType primitiveType;
-    std::vector<MeshPartData*> parts;
+    std::vector<SubMeshData*> parts;
 };
 
 //class MorphTargetData
@@ -116,14 +116,14 @@ public:
 /**
 Mesh part index data
 */
-class MeshPartData
+class SubMeshData
 {
 public:
 	/**
      * Constructor & Destructor.
      */
-    MeshPartData();
-    ~MeshPartData();
+    SubMeshData();
+    ~SubMeshData();
 
     PrimitiveType primitiveType;
     IndexFormat indexFormat;

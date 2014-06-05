@@ -221,7 +221,7 @@ C3DDepthStencilTarget* C3DFrameBuffer::getDepthStencilTarget() const
 
 void C3DFrameBuffer::bind()
 {
-    CCAssert(!_isBind, "Already bind framebuffer");
+    //CCAssert(!_isBind, "Already bind framebuffer");
 
     GL_ASSERT( glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO));
 

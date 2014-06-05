@@ -65,12 +65,12 @@ BonePartData::~BonePartData()
 	SAFE_DELETE_ARRAY(indexData);
 }
 
-MeshPartData::MeshPartData() :
+SubMeshData::SubMeshData() :
     indexCount(0), indexData(NULL)
 {
 }
 
-MeshPartData::~MeshPartData()
+SubMeshData::~SubMeshData()
 {
     SAFE_DELETE_ARRAY(indexData);
 }

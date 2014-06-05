@@ -20,16 +20,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "MeshPart.h"
+#include "C3DSubMesh.h"
 
 namespace cocos3d
 {
-MeshPart::MeshPart() :
+C3DSubMesh::C3DSubMesh() :
     _mesh(NULL), _meshIndex(0), _primitiveType(PrimitiveType_TRIANGLES), _indexCount(0), _indexBuffer(0), _dynamic(false)
 {
 }
 
-MeshPart::~MeshPart()
+C3DSubMesh::~C3DSubMesh()
 {
     if (_indexBuffer)
     {
@@ -37,12 +37,12 @@ MeshPart::~MeshPart()
     }
 }
 
-void MeshPart::reset()
+void C3DSubMesh::reset()
 {
 	_indexBuffer = 0;
 }
 
-MeshPart* MeshPart::create(C3DMesh* mesh, unsigned int meshIndex, PrimitiveType primitiveType,
+C3DSubMesh* C3DSubMesh::create(C3DMesh* mesh, unsigned int meshIndex, PrimitiveType primitiveType,
     IndexFormat indexFormat, unsigned int indexCount, bool dynamic)
 {
     // Create a VBO for our index buffer.
@@ -81,7 +81,7 @@ MeshPart* MeshPart::create(C3DMesh* mesh, unsigned int meshIndex, PrimitiveType 
     }
 	 GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0) );
 
-    MeshPart* part = new MeshPart();
+    C3DSubMesh* part = new C3DSubMesh();
     part->_mesh = mesh;
     part->_meshIndex = meshIndex;
     part->_primitiveType = primitiveType;
@@ -93,37 +93,37 @@ MeshPart* MeshPart::create(C3DMesh* mesh, unsigned int meshIndex, PrimitiveType 
     return part;
 }
 
-unsigned int MeshPart::getMeshIndex() const
+unsigned int C3DSubMesh::getMeshIndex() const
 {
     return _meshIndex;
 }
 
-PrimitiveType MeshPart::getPrimitiveType() const
+PrimitiveType C3DSubMesh::getPrimitiveType() const
 {
     return _primitiveType;
 }
 
-unsigned int MeshPart::getIndexCount() const
+unsigned int C3DSubMesh::getIndexCount() const
 {
     return _indexCount;
 }
 
-IndexFormat MeshPart::getIndexFormat() const
+IndexFormat C3DSubMesh::getIndexFormat() const
 {
     return _indexFormat;
 }
 
-IndexBufferHandle MeshPart::getIndexBuffer() const
+IndexBufferHandle C3DSubMesh::getIndexBuffer() const
 {
     return _indexBuffer;
 }
 
-bool MeshPart::isDynamic() const
+bool C3DSubMesh::isDynamic() const
 {
     return _dynamic;
 }
 
-void MeshPart::setIndexData(void* indexData, unsigned int indexStart, unsigned int indexCount)
+void C3DSubMesh::setIndexData(void* indexData, unsigned int indexStart, unsigned int indexCount)
 {
     GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer) );
 

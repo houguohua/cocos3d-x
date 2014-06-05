@@ -143,7 +143,7 @@ protected:
 	std::string _fileName;
 	//C3DResourceLoader* _loader;
 
-    bool _isVisibleByCamera;
+  //  bool _isVisibleByCamera;
 };
 }
 

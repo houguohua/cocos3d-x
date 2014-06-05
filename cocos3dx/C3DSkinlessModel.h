@@ -47,7 +47,19 @@ public:
 
 	virtual C3DModel* clone(C3DNode::CloneContext& context) const;
 
+	/**
+     * Draws this mesh instance.
+     *
+     * This method binds the vertex buffer and index buffers for the C3DMesh and
+     * all of its C3DSubMeshs and draws the mesh geometry. Any other state
+     * neccessary to render the C3DMesh, such as rendering states, shader state,
+     * and so on, should be set up before calling this method.
+     *
+    */
+	virtual void draw(void);
+
 private:
+	void channelDrawPart( int partIndex );
 };
 
 }

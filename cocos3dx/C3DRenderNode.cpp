@@ -54,7 +54,7 @@ THE SOFTWARE.
 
 namespace cocos3d
 {
-C3DRenderNode::C3DRenderNode(const std::string& id):C3DNode(id),C3DResource(id),_isVisibleByCamera(true)
+C3DRenderNode::C3DRenderNode(const std::string& id):C3DNode(id),C3DResource(id)
 {
 	_scene = NULL;
 
@@ -115,17 +115,14 @@ void C3DRenderNode::draw()
     if(!isVisible())
         return;
 
-	if (_isVisibleByCamera)
+	for(std::vector<C3DNode*>::const_iterator iter=_children.begin(); iter!=_children.end(); ++iter)
 	{
-		for(std::vector<C3DNode*>::const_iterator iter=_children.begin(); iter!=_children.end(); ++iter)
-		{
-			C3DNode* node = *iter;
+		C3DNode* node = *iter;
 
-			if (node->getType() != C3DNode::NodeType_Model)
-				continue;
+		if (node->getType() != C3DNode::NodeType_Model)
+			continue;
 
-			node->draw();
-		}
+		node->draw();
 	}
 
 	std::vector<AttachNode*>::iterator nit;
@@ -143,9 +140,8 @@ void C3DRenderNode::update(long elapsedTime)
     if (!isActive())
         return;
 
-	//C3DNode::update(deltatime);
     getAABB();
-	_isVisibleByCamera = _scene->getActiveCamera()->isVisible(*_bb);
+	_visible = _scene->getActiveCamera()->isVisible(*_bb);
 
 	if(_attachNodes.size()>0)
 	{

@@ -23,7 +23,7 @@ THE SOFTWARE.
 #include "Base.h"
 #include "Geo.h"
 #include "C3DMesh.h"
-#include "MeshPart.h"
+#include "C3DSubMesh.h"
 #include "C3DVector4.h"
 
 #include "C3DVertexFormat.h"
@@ -133,9 +133,9 @@ C3DMesh* Geo::createQuadFullscreen( unsigned int sizeX , unsigned int sizeY )
 	mesh->setPrimitiveType(PrimitiveType_TRIANGLES);
 	mesh->setVertexData(vertices, 0, vertexCount);
 
-	MeshPart* meshPart = mesh->addPart( PrimitiveType_TRIANGLES, IndexFormat_INDEX16, indexCount );
+	C3DSubMesh* C3DSubMesh = mesh->addSubMesh( PrimitiveType_TRIANGLES, IndexFormat_INDEX16, indexCount );
 
-	meshPart->setIndexData( indices, 0, indexCount );
+	C3DSubMesh->setIndexData( indices, 0, indexCount );
 
 	SAFE_DELETE_ARRAY( vertices );
 	SAFE_DELETE_ARRAY( indices );
@@ -214,7 +214,7 @@ void Geo::createQuadFullscreen( unsigned int sizeX, unsigned int sizeY, C3DMesh*
 	mesh->setVertexData(vertices, 0, vertexCount);
 
 	// Create mesh parts
-	MeshPart* part = mesh->addPart(PrimitiveType_TRIANGLES, IndexFormat_INDEX16, indexCount );
+	C3DSubMesh* part = mesh->addSubMesh(PrimitiveType_TRIANGLES, IndexFormat_INDEX16, indexCount );
 	part->setIndexData( indices, 0, indexCount );
 	//---------------------------------------------------------------
 

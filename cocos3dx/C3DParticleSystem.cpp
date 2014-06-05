@@ -46,7 +46,7 @@ namespace cocos3d
 {
 C3DParticleSystem::C3DParticleSystem(const std::string& id):
          C3DNode(id),
-		 _particleCountMax(1000), _validParticleCount(0),_isVisibleByCamera(true)
+		 _particleCountMax(1000), _validParticleCount(0)
 {
 	_emitter = new C3DParticleEmitter(this);
     _render = new C3DParticleRender(this);

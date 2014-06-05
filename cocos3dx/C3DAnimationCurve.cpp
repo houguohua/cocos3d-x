@@ -113,7 +113,7 @@ void C3DAnimationCurve::evaluate(float time, float* dst, C3DAnimationCurve::Inte
         interpolateLinear(t, from, to, dst);
     else if (mode == C3DAnimationCurve::Near)
     {
-        if (t - from->time < to->time - t)
+        if (t  < 0.5f)
             memcpy(dst, from->value, _componentSize);
         else
             memcpy(dst, to->value, _componentSize);

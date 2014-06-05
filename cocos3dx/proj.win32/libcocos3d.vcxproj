@@ -93,6 +93,7 @@
     <ClCompile Include="..\C3DStat.cpp" />
     <ClCompile Include="..\C3DStaticObj.cpp" />
     <ClCompile Include="..\C3DStream.cpp" />
+    <ClCompile Include="..\C3DSubMesh.cpp" />
     <ClCompile Include="..\C3DTechnique.cpp" />
     <ClCompile Include="..\C3DTexture.cpp" />
     <ClCompile Include="..\C3DTexture3D.cpp" />
@@ -109,7 +110,6 @@
     <ClCompile Include="..\FacialAnimManager.cpp" />
     <ClCompile Include="..\Geo.cpp" />
     <ClCompile Include="..\MaterialParameter.cpp" />
-    <ClCompile Include="..\MeshPart.cpp" />
     <ClCompile Include="..\Rectangle.cpp" />
     <ClCompile Include="..\StringTool.cpp" />
   </ItemGroup>
@@ -199,6 +199,7 @@
     <ClInclude Include="..\C3DStat.h" />
     <ClInclude Include="..\C3DStaticObj.h" />
     <ClInclude Include="..\C3DStream.h" />
+    <ClInclude Include="..\C3DSubMesh.h" />
     <ClInclude Include="..\C3DTechnique.h" />
     <ClInclude Include="..\C3DTexture.h" />
     <ClInclude Include="..\C3DTexture3D.h" />
@@ -217,7 +218,6 @@
     <ClInclude Include="..\FacialAnimManager.h" />
     <ClInclude Include="..\Geo.h" />
     <ClInclude Include="..\MaterialParameter.h" />
-    <ClInclude Include="..\MeshPart.h" />
     <ClInclude Include="..\Rectangle.h" />
     <ClInclude Include="..\StringTool.h" />
     <ClInclude Include="..\Vertex.h" />

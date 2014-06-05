@@ -181,7 +181,7 @@ void C3DSprite::update(long elapsedTime)
 
 	C3DRenderNode::update(elapsedTime);
 
-    bool updatePose = _isVisibleByCamera || m_collitionBoxs.size() || _attachNodes.size();
+    bool updatePose = _visible || m_collitionBoxs.size() || _attachNodes.size();
 	if(_animation != NULL)
 		_animation ->update(elapsedTime, updatePose);
 

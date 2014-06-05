@@ -67,7 +67,7 @@ THE SOFTWARE.
 
 #include "Vertex.h"
 #include "C3DVertexFormat.h"
-#include "MeshPart.h"
+#include "C3DSubMesh.h"
 #include "C3DModelNode.h"
 #include "C3DMaterialManager.h"
 #include "C3DSkinlessModel.h"

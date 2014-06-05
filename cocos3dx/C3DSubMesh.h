@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef MESHPART_H_
-#define MESHPART_H_
+#ifndef SUBMESH_H_
+#define SUBMESH_H_
 #include "EnumDef_GL.h"
 
 namespace cocos3d
@@ -32,17 +32,16 @@ class C3DMesh;
  * Defines a part of a mesh describing the way the
  * mesh's vertices are connected together.
  */
-class MeshPart
+class C3DSubMesh
 {
     friend class C3DMesh;
 	friend class C3DModel;
     friend class C3DSkinModel;
 	friend class C3DSkinlessModel;
-	friend class BoardModel;
-
+	
 public:
 
-    ~MeshPart();
+    ~C3DSubMesh();
 	void reset();
 
     unsigned int getMeshIndex() const;
@@ -72,9 +71,9 @@ public:
 
 private:
 
-    MeshPart();
+    C3DSubMesh();
 
-    static MeshPart* create(C3DMesh* mesh, unsigned int meshIndex, PrimitiveType primitiveType, IndexFormat indexFormat, unsigned int indexCount, bool dynamic = false);
+    static C3DSubMesh* create(C3DMesh* mesh, unsigned int meshIndex, PrimitiveType primitiveType, IndexFormat indexFormat, unsigned int indexCount, bool dynamic = false);
 
     C3DMesh* _mesh;
     unsigned int _meshIndex;
