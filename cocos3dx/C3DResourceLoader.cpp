@@ -34,6 +34,8 @@ THE SOFTWARE.
 #include "C3DModelNode.h"
 #include "C3DSkinModel.h"
 #include "C3DSkinlessModel.h"
+#include "C3DSkinMorphModel.h"
+#include "C3DSkinlessMorphModel.h"
 #include "C3DMesh.h"
 #include "C3DMorphMesh.h"
 #include "C3DMeshSkin.h"
@@ -942,11 +944,17 @@ C3DModel* C3DResourceLoader::readModel(const std::string& nodeId)
 	C3DModel* model = NULL;
     if (hasSkin)
     {
-		model = C3DSkinModel::create();
+		if(hasMorph)
+			model = C3DSkinMorphModel::create();
+		else
+		    model = C3DSkinModel::create();
     }
 	else
 	{
-		model = C3DSkinlessModel::create();
+		if(hasMorph)
+			model = C3DSkinlessMorphModel::create();
+		else
+		    model = C3DSkinlessModel::create();
 	}
 
     if(hasMesh)
@@ -965,7 +973,11 @@ C3DModel* C3DResourceLoader::readModel(const std::string& nodeId)
 		C3DMorph* morph = readMeshMorph();
 		if(morph != NULL)
 		{
-			model->setMorph(morph);
+			if(hasSkin)
+                static_cast<C3DSkinMorphModel*>(model)->setMorph(morph);
+			else
+				static_cast<C3DSkinlessMorphModel*>(model)->setMorph(morph);
+
 		}
 	}
 

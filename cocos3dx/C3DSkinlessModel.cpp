@@ -164,9 +164,5 @@ void C3DSkinlessModel::draw(void)
 	}
 }
 
-void C3DSkinlessModel::channelDrawPart( int partIndex )
-{
-	
-}
 
 }

@@ -38,6 +38,8 @@ class C3DSubMesh
 	friend class C3DModel;
     friend class C3DSkinModel;
 	friend class C3DSkinlessModel;
+	friend class C3DSkinMorphModel;
+	friend class C3DSkinlessMorphModel;
 	
 public:
 

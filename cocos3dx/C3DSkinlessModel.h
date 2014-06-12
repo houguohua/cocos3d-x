@@ -58,8 +58,7 @@ public:
     */
 	virtual void draw(void);
 
-private:
-	void channelDrawPart( int partIndex );
+
 };
 
 }

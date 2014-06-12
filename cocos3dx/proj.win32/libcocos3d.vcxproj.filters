@@ -266,9 +266,6 @@
     <ClCompile Include="..\C3DMathUtilty.cpp">
       <Filter>math</Filter>
     </ClCompile>
-    <ClCompile Include="..\C3DMorphModel.cpp">
-      <Filter>model</Filter>
-    </ClCompile>
     <ClCompile Include="..\C3DBaseModel.cpp">
       <Filter>model</Filter>
     </ClCompile>
@@ -279,9 +276,6 @@
       <Filter>mesh</Filter>
     </ClCompile>
     <ClCompile Include="..\C3DMesh.cpp">
-      <Filter>mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="..\C3DMorphMesh.cpp">
       <Filter>mesh</Filter>
     </ClCompile>
     <ClCompile Include="..\C3DVertexFormat.cpp">
@@ -299,6 +293,15 @@
     </ClCompile>
     <ClCompile Include="..\C3DSubMesh.cpp">
       <Filter>mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\C3DSkinlessMorphModel.cpp">
+      <Filter>morph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\C3DSkinMorphModel.cpp">
+      <Filter>morph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\C3DMorphMesh.cpp">
+      <Filter>morph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -591,9 +594,6 @@
     <ClInclude Include="..\C3DMesh.h">
       <Filter>mesh</Filter>
     </ClInclude>
-    <ClInclude Include="..\C3DMorphMesh.h">
-      <Filter>mesh</Filter>
-    </ClInclude>
     <ClInclude Include="..\C3DVertexFormat.h">
       <Filter>mesh</Filter>
     </ClInclude>
@@ -612,6 +612,15 @@
     </ClInclude>
     <ClInclude Include="..\C3DSubMesh.h">
       <Filter>mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\C3DSkinlessMorphModel.h">
+      <Filter>morph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\C3DSkinMorphModel.h">
+      <Filter>morph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\C3DMorphMesh.h">
+      <Filter>morph</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -42,6 +42,7 @@ class C3DMeshSkin : public C3DNode::Listener
 {
     friend class C3DResourceLoader;
     friend class C3DSkinModel;
+	friend class C3DSkinMorphModel;
     friend class C3DBone;
     friend class C3DNode;
 

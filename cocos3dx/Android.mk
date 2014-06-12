@@ -101,7 +101,8 @@ MaterialParameter.cpp \
 C3DSubMesh.cpp \
 C3DMorph.cpp \
 C3DMorphMesh.cpp \
-C3DMorphModel.cpp \
+C3DSkinMorphModel.cpp \
+C3DSkinlessMorphModel.cpp \
 Rectangle.cpp \
 StringTool.cpp \
 C3DDeviceAdapter_android.cpp \

@@ -46,13 +46,14 @@ public:
 	static C3DModel* create();
 
 	void draw(void);
-	//void channelDraw();
 
-    virtual C3DSkinModel* clone(C3DNode::CloneContext& context) const;
+    virtual C3DModel* clone(C3DNode::CloneContext& context) const;
 
 	virtual std::string getDefaultMaterialName();
 
-private:
+protected:
+	void copyFrom(const C3DSkinModel* other);
+protected:
 	 C3DMeshSkin* _skin;
 };
 }

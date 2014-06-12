@@ -50,7 +50,7 @@ C3DBatchModel* C3DBatchModel::createDebugModel(C3DNode* node)
     };
     C3DVertexFormat v = C3DVertexFormat(elements, 2);
     C3DBatchMesh* mesh = new C3DBatchMesh(&v, PrimitiveType_LINES,true);
-
+	mesh->init();
     model->_mesh = mesh;
 	C3DMaterial* material = static_cast<C3DMaterial*>(C3DMaterialManager::getInstance()->getResource("common/debug.material"));
 

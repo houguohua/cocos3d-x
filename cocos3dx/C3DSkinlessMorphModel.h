@@ -20,16 +20,42 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "C3DBaseModel.h"
+#ifndef SKINLESSMORPHMODEL_H_
+#define SKINLESSMORPHMODEL_H_
+
+#include "C3DSkinlessModel.h"
 
 namespace cocos3d
 {
-C3DBaseModel::C3DBaseModel()
+class C3DMorph;
+
+class C3DSkinlessMorphModel : public C3DSkinlessModel
 {
+public:
+
+    C3DSkinlessMorphModel();
+
+    ~C3DSkinlessMorphModel();
+
+	static C3DSkinlessMorphModel* create();
+
+	
+	virtual C3DModel* clone(C3DNode::CloneContext& context) const;
+
+	C3DMorph* getMorph();
+	void setMorph(C3DMorph* morph);
+
+	void pushMorph(int morphTargetIndex,float weight);
+	void popMorph(int morphTargetIndex);
+	void changeMorph(int morphTargetIndex,float weight);
+
+protected:
+	virtual void copyFrom(const C3DSkinlessMorphModel* other);
+
+private:
+	 C3DMorph* _morph;
+};
+
 }
 
-C3DBaseModel::~C3DBaseModel()
-{
-}
-
-}
+#endif

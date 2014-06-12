@@ -19,20 +19,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-
-#include "C3DModel.h"
-#include "C3DMorph.h"
+#include "Base.h"
+#include "C3DSkinMorphModel.h"
 #include "C3DMorphMesh.h"
+#include "C3DMeshSkin.h"
+#include "C3DMorph.h"
 
 namespace cocos3d
 {
+C3DSkinMorphModel::C3DSkinMorphModel() :_morph(NULL)
+{
+}
 
-C3DMorph* C3DModel::getMorph()
+C3DSkinMorphModel::~C3DSkinMorphModel()
+{
+	SAFE_DELETE(_morph);
+}
+
+C3DModel* C3DSkinMorphModel::create()
+{
+    return new C3DSkinMorphModel();
+}
+
+C3DMorph* C3DSkinMorphModel::getMorph()
 {
 	return _morph;
 }
 
-void C3DModel::setMorph(C3DMorph* morph)
+void C3DSkinMorphModel::setMorph(C3DMorph* morph)
 {
 	if(_morph != morph)
 	{
@@ -42,7 +56,7 @@ void C3DModel::setMorph(C3DMorph* morph)
 	}
 }
 
-void C3DModel::pushMorph(int morphTargetIndex,float weight)
+void C3DSkinMorphModel::pushMorph(int morphTargetIndex,float weight)
 {
 	if(_mesh!=NULL && _morph!=NULL)
 	{
@@ -50,7 +64,7 @@ void C3DModel::pushMorph(int morphTargetIndex,float weight)
 	}
 }
 
-void C3DModel::popMorph(int morphTargetIndex)
+void C3DSkinMorphModel::popMorph(int morphTargetIndex)
 {
 	if(_mesh!=NULL && _morph!=NULL)
 	{
@@ -58,11 +72,40 @@ void C3DModel::popMorph(int morphTargetIndex)
 	}
 }
 
-void C3DModel::changeMorph(int morphTargetIndex,float weight)
+void C3DSkinMorphModel::changeMorph(int morphTargetIndex,float weight)
 {
 	if(_mesh!=NULL && _morph!=NULL)
 	{
 		static_cast<C3DMorphMesh*>(_mesh)->changeMorph(_morph,morphTargetIndex,weight);
 	}
 }
+
+
+
+void C3DSkinMorphModel::copyFrom(const C3DSkinMorphModel* other)
+{
+    C3DSkinModel::copyFrom(other);
+
+	setMorph(other->_morph);
+}
+
+C3DModel* C3DSkinMorphModel::clone(C3DNode::CloneContext& context) const
+{
+    C3DSkinMorphModel* other = new C3DSkinMorphModel();
+
+    other->copyFrom(this);
+
+    C3DMeshSkin *skin = new C3DMeshSkin();
+
+    skin->copyFrom(_skin, context);
+
+    other->setSkin(skin);
+
+	other->autorelease();
+
+    return other;
+}
+
+
+
 }

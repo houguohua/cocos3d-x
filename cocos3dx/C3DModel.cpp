@@ -33,7 +33,6 @@ THE SOFTWARE.
 #include "C3DMaterial.h"
 
 #include "BonePart.h"
-#include "C3DMorph.h"
 #include "C3DVertexDeclaration.h"
 
 #include "C3DLightFilter.h"
@@ -45,7 +44,6 @@ THE SOFTWARE.
 #include "C3DMaterialManager.h"
 #include "C3DRenderChannel.h"
 #include "C3DRenderSystem.h"
-#include "C3DMorphMesh.h"
 #include "C3DDeviceAdapter.h"
 
 namespace cocos3d
@@ -55,7 +53,6 @@ C3DLightFilter* C3DModel::s_lightFilter = NULL;
 C3DModel::C3DModel() :
     _mesh(NULL), _material(NULL), _partCount(0), _partMaterials(NULL), _node(NULL), _wireframe(false)
 {
-	_morph = NULL;
 	_materialName = "";
 }
 
@@ -74,13 +71,9 @@ C3DModel::~C3DModel()
 
     SAFE_RELEASE(_mesh);
 
-	SAFE_DELETE(_morph);
 }
 
-C3DModel* C3DModel::create()
-{
-    return new C3DModel();
-}
+
 
 void C3DModel::setMesh(C3DMesh* mesh)
 {
@@ -597,9 +590,6 @@ void C3DModel::applyShadowMap(C3DPass* pass)
 
 void C3DModel::copyFrom(const C3DModel* other)
 {
-	//other->_mesh->retain();
-	//SAFE_RELEASE(_mesh);
-	//_mesh = other->_mesh;
 	setMesh(other->_mesh);
 	_partCount = other->_partCount;
 	C3DMaterial* newMaterial;
@@ -620,7 +610,6 @@ void C3DModel::copyFrom(const C3DModel* other)
 		}
 	}
 
-	setMorph(other->_morph);
 	setNode(other->_node);
 }
 

@@ -55,8 +55,6 @@ public:
 
     virtual ~C3DModel();
 
-    static C3DModel* create();
-
     C3DMesh* getMesh() const;
 
     unsigned int getSubMeshCount() const;
@@ -99,16 +97,7 @@ public:
 
     C3DNode* getNode() const;
 
-
-
 	C3DRenderChannel* getRenderChannel();
-
-	C3DMorph* getMorph();
-	void setMorph(C3DMorph* morph);
-
-	void pushMorph(int morphTargetIndex,float weight);
-	void popMorph(int morphTargetIndex);
-	void changeMorph(int morphTargetIndex,float weight);
 
     /**
      * get or set light filter
@@ -141,25 +130,21 @@ protected:
 
 	float distanceToCamera(void);
 
-
-
-private:
-    /**
+	/**
      * Sets the specified materia's node binding to this model's node.
-     */
+    */
     void setMaterialNodeBinding(C3DMaterial *m);
 
     void validatePartCount();
+
+protected:
 
     unsigned int _partCount;
     C3DMaterial** _partMaterials;
     C3DNode* _node;
 
-	C3DMorph* _morph;
-
     static C3DLightFilter* s_lightFilter;
 
-protected:
     bool _wireframe;
 
 public:

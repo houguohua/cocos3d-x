@@ -82,7 +82,6 @@ void C3DSkinModel::draw()
             if (!technique)
                 return;
 
-			//**
             unsigned int passCount = technique->getPassCount();
             STAT_INC_DRAW_CALL(passCount);
             for (unsigned int i = 0; i < passCount; ++i)
@@ -111,7 +110,6 @@ void C3DSkinModel::draw()
 				}
                 pass->unbind();
             }
-			//*/
         }
     }
     else
@@ -129,7 +127,6 @@ void C3DSkinModel::draw()
                 if (!technique)
                     continue;
 
-				//**
                 unsigned int passCount = technique->getPassCount();
 
                 for (unsigned int j = 0; j < passCount; ++j)
@@ -188,13 +185,17 @@ void C3DSkinModel::draw()
                     GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0) );
                     pass->unbind();
                 }
-				//*/
             }
         }
     }
 }
 
-C3DSkinModel* C3DSkinModel::clone(C3DNode::CloneContext& context) const
+void C3DSkinModel::copyFrom(const C3DSkinModel* other)
+{
+	C3DModel::copyFrom(other);
+}
+
+C3DModel* C3DSkinModel::clone(C3DNode::CloneContext& context) const
 {
     C3DSkinModel* model = new C3DSkinModel();
 
