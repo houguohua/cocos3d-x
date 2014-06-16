@@ -54,12 +54,20 @@ namespace cocos3d
     
 	void C3DDeviceAdapter::checkPostProcess()
     {
-        _supportPostProcess = true;
+        if(_deviceLevel == DeviceLevel::High)
+            _supportPostProcess = true;
+        else
+            _supportPostProcess = false;
+        
     }
 
 	void C3DDeviceAdapter::checkShadow()
     {
-        _supportShadow = true;
+        if(_deviceLevel == DeviceLevel::High)
+            _supportShadow = true;
+        else
+            _supportShadow = false;
+        
     }
     
 	void C3DDeviceAdapter::checkDevice()
@@ -96,7 +104,7 @@ namespace cocos3d
             else if(_platformName.find("iPod3") != std::string::npos)    // iPod 3
                 _deviceLevel = DeviceLevel::Low;
             else if(_platformName.find("iPod4") != std::string::npos)    // iPod 4
-                _deviceLevel = DeviceLevel::Mid;
+                _deviceLevel = DeviceLevel::Low;
             else
                 _deviceLevel = DeviceLevel::High;                        // other iPod
         }

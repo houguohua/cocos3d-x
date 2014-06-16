@@ -176,7 +176,13 @@ bool C3DSprite::loadMesh(const std::string& meshName)
 
 void C3DSprite::update(long elapsedTime)
 {
-    if (!isActive())
+    if(!isActive())
+        return;
+    
+	getAABB();
+	_visible = _scene->getActiveCamera()->isVisible(*_bb);
+
+    if (!isVisible())
         return;
 
 	C3DRenderNode::update(elapsedTime);

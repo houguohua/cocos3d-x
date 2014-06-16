@@ -354,16 +354,14 @@ bool C3DParticleSystem::isStarted() const
 
 void C3DParticleSystem::update(long elapsedTime)
 {
-    if (!isActive())
+    if(!isActive())
         return;
-
-    getAABB();
-
-    /*if (_scene->getActiveCamera()->isVisible(*_bb))
-        return;*/
-
-    setVisible(_scene->getActiveCamera()->isVisible(*_bb));
     
+	getAABB();
+	_visible = _scene->getActiveCamera()->isVisible(*_bb);
+
+	if (!isVisible())
+		return;
 
 	if (_particles)
 	{
@@ -403,7 +401,7 @@ void C3DParticleSystem::update(long elapsedTime)
 
 void C3DParticleSystem::draw()
 {
-    if(!isVisible())
+    if(!isActive() || !isVisible())
         return;
 
     STAT_INC_TRIANGLE_TOTAL(_validParticleCount * 2);

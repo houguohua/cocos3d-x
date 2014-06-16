@@ -234,21 +234,26 @@ void C3DNode::update(long elapsedTime)
 {
     if(!isActive())
         return;
+    
+	getAABB();
+	_visible = _scene->getActiveCamera()->isVisible(*_bb);
+
+    if(!isVisible())
+        return;
 
     size_t i;
     for (i = 0; i < _children.size(); ++i)
 	{
 		C3DNode* node = _children[i];
-		//if(node->isVisible())
 			node->update(elapsedTime);
     }
 }
 
 void C3DNode::draw()
 {
-    if(!isVisible())
+    if(!isActive() || !isVisible())
         return;
-
+    
 	size_t i;
     for (i = 0; i < _children.size(); ++i)
 	{

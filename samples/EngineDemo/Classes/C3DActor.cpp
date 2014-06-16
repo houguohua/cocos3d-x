@@ -24,6 +24,7 @@ THE SOFTWARE.
 #include "C3DNode.h"
 #include "C3DSprite.h"
 #include "C3DModel.h"
+#include "C3DSkinMorphModel.h"
 #include "C3DModelNode.h"
 #include "C3DMaterial.h"
 #include "FacialAnimManager.h"
@@ -423,7 +424,7 @@ void C3DActor::addMorph(const std::string &modelName, unsigned int morphTargetIn
 			return;
 	}
 
-	static_cast<cocos3d::C3DModelNode*>(node)->getModel()->pushMorph(morphTargetIndex,weight);
+	static_cast<cocos3d::C3DSkinMorphModel*>(static_cast<cocos3d::C3DModelNode*>(node)->getModel())->pushMorph(morphTargetIndex,weight);
 }
 
 void C3DActor::changeMorph(const std::string& type,float weight)
@@ -437,7 +438,7 @@ void C3DActor::changeMorph(const std::string& type,float weight)
 	if(info == NULL)
 		return;
 
-	static_cast<cocos3d::C3DModelNode*>(node)->getModel()->changeMorph(info->_morphTargetIndex,weight);
+	static_cast<cocos3d::C3DSkinMorphModel*>(static_cast<cocos3d::C3DModelNode*>(node)->getModel())->changeMorph(info->_morphTargetIndex,weight);
 }
 
 //void C3DActor::createFacialAnim()

@@ -112,7 +112,7 @@ void C3DRenderNode::reload()
 
 void C3DRenderNode::draw()
 {
-    if(!isVisible())
+    if(!isActive() || !isVisible())
         return;
 
 	for(std::vector<C3DNode*>::const_iterator iter=_children.begin(); iter!=_children.end(); ++iter)
@@ -137,11 +137,14 @@ void C3DRenderNode::draw()
 */
 void C3DRenderNode::update(long elapsedTime)
 {
-    if (!isActive())
+    if(!isActive())
         return;
-
-    getAABB();
+    
+	getAABB();
 	_visible = _scene->getActiveCamera()->isVisible(*_bb);
+
+    if (!isVisible())
+        return;
 
 	if(_attachNodes.size()>0)
 	{
