@@ -29,7 +29,7 @@ namespace cocos3d
 C3DResource::C3DResource(): _id(""),_resourceName(""),_size(0)
 {
 	_checkWaitTime = 0;
-	_waitTime = 10000;
+	_waitTime = 100;
 	_state = State_Init;
 	_cloneNum = 0;
 }
@@ -37,7 +37,7 @@ C3DResource::C3DResource(): _id(""),_resourceName(""),_size(0)
 C3DResource::C3DResource(const std::string& id): _id(id),_resourceName(id),_size(0)
 {
 	_checkWaitTime = 0;
-	_waitTime = 10000;
+	_waitTime = 100;
 	_state = State_Init;
 	_cloneNum = 0;
 }

@@ -124,6 +124,7 @@ public:
 
 	virtual C3DNode* clone(CloneContext& context) const{ return NULL; }
 
+	void updateCollitionBox();
 protected:
 
 	virtual void copyFrom(const C3DTransform* other, C3DNode::CloneContext& context);

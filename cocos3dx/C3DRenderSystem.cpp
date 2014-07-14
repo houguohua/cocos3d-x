@@ -43,6 +43,7 @@ THE SOFTWARE.
 #include "C3DPostProcess.h"
 
 #include "C3DDeviceAdapter.h"
+#include "C3DMaterialManager.h"
 
 namespace cocos3d
 {
@@ -186,7 +187,9 @@ RenderChannelManager* C3DRenderSystem::getRenderChannelManager() const
 
 void C3DRenderSystem::update(long elapsedTime)
 {
+	C3DRenderNodeManager::getInstance()->update(elapsedTime);
 	C3DEffectManager::getInstance()->update(elapsedTime);
+    C3DMaterialManager::getInstance()->update(elapsedTime);
 }
 
 void C3DRenderSystem::clear(ClearFlags flags, const C3DVector4* clearColor, float clearDepth, int clearStencil)

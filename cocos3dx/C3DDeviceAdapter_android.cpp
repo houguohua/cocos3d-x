@@ -3,6 +3,9 @@
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 #include "Base.h"
 #include "C3DDeviceAdapter.h"
+#include "C3DFrameBuffer.h"
+#include "C3DTexture.h"
+#include "C3DDepthStencilTarget.h"
 #include <cpu-features.h>
 namespace cocos3d
 {
@@ -96,21 +99,39 @@ void C3DDeviceAdapter::checkDevice()
 void C3DDeviceAdapter::checkShadow()
 {
 	if(_deviceLevel == DeviceLevel::High)
-		_supportShadow = true;
+	{
+		unsigned int fmtColor = C3DTexture::RGBA;
+		unsigned int fmtDepth = C3DDepthStencilTarget::DEPTH16;
+
+		C3DFrameBuffer* framebuffer = C3DFrameBuffer::create("test", 32, 32, fmtColor, fmtDepth);
+		if (framebuffer == NULL)
+			_supportShadow = false;
+		else
+			_supportShadow = true;
+	}
 	else
 		_supportShadow = false;
 
-	_supportShadow = true;
+
 }
 
 void C3DDeviceAdapter::checkPostProcess()
 {
 	if(_deviceLevel == DeviceLevel::High)
-		_supportPostProcess = true;
+	{
+		unsigned int fmtColor = C3DTexture::RGBA;
+		unsigned int fmtDepth = C3DDepthStencilTarget::DEPTH16;
+
+		C3DFrameBuffer* framebuffer = C3DFrameBuffer::create("test", 32, 32, fmtColor, fmtDepth);
+		if (framebuffer == NULL)
+			_supportPostProcess = false;
+		else
+			_supportPostProcess = true;
+		
+	}
 	else
 		_supportPostProcess = false;
 
-	_supportPostProcess = true;
 }
 
 

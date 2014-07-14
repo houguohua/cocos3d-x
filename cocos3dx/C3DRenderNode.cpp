@@ -154,6 +154,11 @@ void C3DRenderNode::update(long elapsedTime)
 		}
 	}
 
+	//updateCollitionBox();
+}
+
+void C3DRenderNode::updateCollitionBox()
+{
 	// update CollitionBox
 	std::vector<C3DCollitionBox*>::iterator iter = m_collitionBoxs.begin();
 	for ( ; iter != m_collitionBoxs.end(); iter++)
@@ -161,7 +166,6 @@ void C3DRenderNode::update(long elapsedTime)
 		(*iter)->update();
 	}
 }
-
 AttachNode * C3DRenderNode::accessNode( C3DNode* pNode)
 {
 	std::vector<AttachNode*>::iterator nit;

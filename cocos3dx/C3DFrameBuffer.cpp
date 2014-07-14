@@ -53,7 +53,7 @@ C3DFrameBuffer::~C3DFrameBuffer()
 C3DFrameBuffer* C3DFrameBuffer::create(const std::string& id, unsigned int width, unsigned int height, unsigned int fmtColor, unsigned int fmtDepth)
 {
     // Create C3DRenderTarget with same ID
-	LOG_TRACE_VARG("++++++++create FBO:%s    %d    %d    %d    %d", id.c_str(), width, height, fmtColor, fmtDepth);
+//	LOG_TRACE_VARG("++++++++create FBO:%s    %d    %d    %d    %d", id.c_str(), width, height, fmtColor, fmtDepth);
     C3DRenderTarget* renderTarget = NULL;
 
     if (fmtColor)

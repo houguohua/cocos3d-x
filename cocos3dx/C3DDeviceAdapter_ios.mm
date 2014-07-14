@@ -39,6 +39,7 @@ namespace cocos3d
         sysctlbyname("hw.machine", answer, &size, NULL, 0);
         _platformName = answer;
         WARN_VARG("the device name is : %s", answer);
+        free(answer);
 
     }
     

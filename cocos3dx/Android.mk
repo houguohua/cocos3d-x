@@ -115,8 +115,26 @@ LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static
 LOCAL_C_INCLUDES := $(LOCAL_PATH) \
 $(LOCAL_PATH)/physics \
 
-                    
-LOCAL_CFLAGS := -D__ANDROID__ -fexceptions -mfloat-abi=softfp -mfpu=neon -march=armv7-a -mtune=cortex-a8
+#x86 use:	-march=i686 -mtune=atom -mstackrealign -msse3 -mfpmath=sse -m32
+#armv7 use:	-mfloat-abi=softfp -mfpu=neon -march=armv7-a -mtune=cortex-a8
+
+LOCAL_CFLAGS := -D__ANDROID__ -fexceptions
+
+ifeq ($(APP_ABI), x86)
+$(warning "-------------APP_ABI is x86")
+LOCAL_CFLAGS += -march=i686 -mtune=atom -mstackrealign -msse3 -mfpmath=sse -m32
+endif
+
+ifeq ($(APP_ABI), armeabi)
+$(warning "-------------APP_ABI is armeabi")
+endif
+
+
+ifeq ($(APP_ABI), armeabi-v7a)
+$(warning "-------------APP_ABI is armeabi-v7a")
+LOCAL_CFLAGS += -mfloat-abi=softfp -mfpu=neon -march=armv7-a -mtune=cortex-a8
+endif
+
 LOCAL_LDLIBS := -lGLESv2  -lEGL -llog -lz -landroid 
                 
                     

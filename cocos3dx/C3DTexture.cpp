@@ -46,7 +46,14 @@ C3DTexture::C3DTexture() :
 C3DTexture::~C3DTexture()
 {
 	C3DTextureMgr::getInstance()->remove(this);
-    SAFE_RELEASE(_2DTex);
+	if (_2DTex)
+	{
+		CCTextureCache::sharedTextureCache()->removeTexture(_2DTex);
+		SAFE_RELEASE(_2DTex);
+	}else if (_handle)
+	{
+		GL_ASSERT(glDeleteTextures(1, &_handle));
+	}
 }
 
 void C3DTexture::reload()
@@ -372,6 +379,7 @@ C3DTextureMgr* C3DTextureMgr::getInstance()
 
 void C3DTextureMgr::add(C3DTexture* texture)
 {
+	//CCLOG("C3DTextureMgr, texCon size %d", _texCon.size());
 	T_CACHE_CONTAINER::iterator itr = std::find(_texCon.begin(), _texCon.end(), texture);
 	if (itr == _texCon.end())
 	{
