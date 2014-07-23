@@ -73,7 +73,12 @@ C3DModel::~C3DModel()
 
 }
 
-
+C3DModel* C3DModel::create()
+{
+	C3DModel* model = new C3DModel;
+	model->autorelease();
+	return model;
+}
 
 void C3DModel::setMesh(C3DMesh* mesh)
 {

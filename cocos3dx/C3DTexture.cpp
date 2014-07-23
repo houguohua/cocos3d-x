@@ -48,7 +48,7 @@ C3DTexture::~C3DTexture()
 	C3DTextureMgr::getInstance()->remove(this);
 	if (_2DTex)
 	{
-		CCTextureCache::sharedTextureCache()->removeTexture(_2DTex);
+		//CCTextureCache::sharedTextureCache()->removeTexture(_2DTex);
 		SAFE_RELEASE(_2DTex);
 	}else if (_handle)
 	{

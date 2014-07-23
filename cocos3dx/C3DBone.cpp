@@ -58,7 +58,9 @@ C3DBone::~C3DBone()
 
 C3DBone* C3DBone::create(const std::string& id)
 {
-    return new C3DBone(id);
+	C3DBone* bone = new C3DBone(id);
+	bone->autorelease();
+	return bone;
 }
 
 C3DNode::Type C3DBone::getType() const

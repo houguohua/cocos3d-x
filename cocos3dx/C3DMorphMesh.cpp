@@ -38,9 +38,10 @@ C3DMorphMesh::~C3DMorphMesh()
 	reload();
 }
 
-C3DMorphMesh* C3DMorphMesh::createMesh(C3DVertexFormat* vertexFormat, unsigned int vertexCount, bool dynamic)
+C3DMorphMesh* C3DMorphMesh::create(C3DVertexFormat* vertexFormat, unsigned int vertexCount, bool dynamic)
 {
 	C3DMorphMesh* mesh = new C3DMorphMesh(vertexFormat);
+	mesh->autorelease();
 	
 	bool res = mesh->init(vertexFormat, vertexCount, dynamic);
 
@@ -48,7 +49,6 @@ C3DMorphMesh* C3DMorphMesh::createMesh(C3DVertexFormat* vertexFormat, unsigned i
 		return mesh;
 	else
 	{
-		SAFE_RELEASE(mesh);
 		return NULL;
 	}
 }

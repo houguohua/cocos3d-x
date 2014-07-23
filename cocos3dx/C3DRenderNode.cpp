@@ -492,13 +492,20 @@ bool C3DRenderNode::loadCollitionBox(const std::string& fileName)
 {
 	m_collitionBoxs.clear();
 	cocos3d::C3DElementNode* tpBoxListNode = C3DElementNode::create(fileName.c_str());
-	if (!tpBoxListNode)
-		return true;
-
+	if (!tpBoxListNode){
+        SAFE_DELETE(tpBoxListNode);
+        return true;
+    }
+	
+	
+    cocos3d::C3DElementNode* temp =tpBoxListNode;
 	tpBoxListNode = tpBoxListNode->getNextChild();
-	if (!tpBoxListNode || tpBoxListNode->getNodeType() != "collitionbox")
-		return false;
-
+	if (!tpBoxListNode || tpBoxListNode->getNodeType() != "collitionbox"){
+        SAFE_DELETE(temp);
+        return false;
+    }
+		
+    
 	cocos3d::C3DElementNode* tpNode = NULL;
 	while ((tpNode = tpBoxListNode->getNextChild()))
 	{
@@ -515,7 +522,8 @@ bool C3DRenderNode::loadCollitionBox(const std::string& fileName)
 			addCollitionBox(std::string(strBoneName), center, radius);
 		}
 	}
-	SAFE_DELETE(tpBoxListNode);
+     SAFE_DELETE(temp);
+//	SAFE_DELETE(tpBoxListNode);
 	return true;
 }
 }

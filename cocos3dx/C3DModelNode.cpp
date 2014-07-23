@@ -44,7 +44,10 @@ C3DModelNode::~C3DModelNode()
 
 C3DModelNode* C3DModelNode::create(const std::string& id)
 {
-    return new C3DModelNode(id);
+	C3DModelNode* node = new C3DModelNode(id);
+	node->autorelease();
+
+	return node;
 }
 
 C3DNode::Type C3DModelNode::getType() const

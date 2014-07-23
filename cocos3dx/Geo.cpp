@@ -51,7 +51,7 @@ C3DMesh* Geo::createBoard(float x, float y, float width, float height)
         C3DVertexElement(Vertex_Usage_TEXCOORD0, 2)
     };
 	C3DVertexFormat vf(elements, 3);
-    C3DMesh* mesh = C3DMesh::createMesh(&vf, 4, false);
+    C3DMesh* mesh = C3DMesh::create(&vf, 4, false);
     if (mesh == NULL)
     {
         return NULL;
@@ -129,7 +129,7 @@ C3DMesh* Geo::createQuadFullscreen( unsigned int sizeX , unsigned int sizeY )
 	};
 	C3DVertexFormat vertformat(elements, 2);
 
-	C3DMesh* mesh = C3DMesh::createMesh(&vertformat, vertexCount);
+	C3DMesh* mesh = C3DMesh::create(&vertformat, vertexCount);
 	mesh->setPrimitiveType(PrimitiveType_TRIANGLES);
 	mesh->setVertexData(vertices, 0, vertexCount);
 

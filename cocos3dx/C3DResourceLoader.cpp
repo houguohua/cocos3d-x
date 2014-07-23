@@ -293,15 +293,12 @@ void C3DResourceLoader::loadSuperModel(C3DSprite* superModel,std::string nodeNam
 	clearLoadSession();
 
 	C3DNode* node = this->loadNode(nodeName, superModel);
-
     if (node)
     {
 		superModel->addChild( node);
-        node->release(); // scene now owns node
     }
 
 	 resolveJointReferences(superModel);
-
     return ;
 }
 
@@ -314,7 +311,6 @@ void C3DResourceLoader::loadSuperModel(C3DSprite* superModel,std::list<std::stri
         if (node)
         {
 			superModel->addChild( node);
-            node->release();
         }
     }
 
@@ -347,7 +343,6 @@ void C3DResourceLoader::loadSkeleton(C3DSprite* superModel,std::string baseBoneN
         {
 			superModel->setSkeleton( static_cast<C3DBone*>(node) );
 			superModel->addChild( node );
-            node->release(); // scene now owns node
         }
     }
 
@@ -575,7 +570,6 @@ void C3DResourceLoader::loadSuperModel(C3DSprite* superModel)
         for (unsigned int i = 0; i < childrenCount; i++)
         {
             C3DNode* node = readNode(superModel);
-
             if (node)
             {
 				if(node->getType() == C3DNode::NodeType_Bone)
@@ -583,7 +577,6 @@ void C3DResourceLoader::loadSuperModel(C3DSprite* superModel)
 					superModel->setSkeleton( static_cast<C3DBone*>(node) );
 				}
 				superModel->addChild( node);
-                node->release(); // scene now owns node
             }
         }
     }
@@ -617,11 +610,9 @@ void C3DResourceLoader::loadSceneModel(C3DStaticObj* sceneModel)
         for (unsigned int i = 0; i < childrenCount; i++)
         {
             C3DNode* node = readNode(sceneModel);
-
             if (node)
             {
 				sceneModel->addChild( node);
-                node->release(); // scene now owns node
             }
         }
     }
@@ -694,7 +685,6 @@ C3DNode* C3DResourceLoader::readNode(C3DRenderNode* compoundModelContext)
     float transform[16];
 	if(_stream->read(transform, sizeof(float), 16) != 16)
     {
-        SAFE_RELEASE(node);
         return NULL;
     }
     setTransform(transform, node);
@@ -706,7 +696,6 @@ C3DNode* C3DResourceLoader::readNode(C3DRenderNode* compoundModelContext)
     unsigned int childrenCount;
     if (!_stream->read(&childrenCount))
     {
-        SAFE_RELEASE(node);
         return NULL;
     }
     if (childrenCount > 0)
@@ -736,7 +725,6 @@ C3DNode* C3DResourceLoader::readNode(C3DRenderNode* compoundModelContext)
             if (child)
             {
                 node->addChild(child);
-                child->release(); // 'node' now owns this child
             }
         }
     }
@@ -754,7 +742,6 @@ C3DNode* C3DResourceLoader::readNode(C3DRenderNode* compoundModelContext)
 			if (model)
 			{
 				static_cast<C3DModelNode*>(node)->setModel(model);
-				SAFE_RELEASE(model);
 			}
 		}
         break;
@@ -965,7 +952,6 @@ C3DModel* C3DResourceLoader::readModel(const std::string& nodeId)
 		{
 			model->setMesh(mesh);
 		}
-		SAFE_RELEASE(mesh);
 	}
 
 	if (hasMorph)
@@ -1366,11 +1352,11 @@ C3DMesh* C3DResourceLoader::loadMesh(const std::string& nodeId,bool hasMorph)
     C3DMesh* mesh = NULL;
 	if(hasMorph == true)
 	{
-		mesh = C3DMorphMesh::createMesh(meshData->vertexFormat, meshData->vertexCount, true);
+		mesh = C3DMorphMesh::create(meshData->vertexFormat, meshData->vertexCount, true);
 	}
 	else
 	{
-		mesh = C3DMesh::createMesh(meshData->vertexFormat, meshData->vertexCount, false);
+		mesh = C3DMesh::create(meshData->vertexFormat, meshData->vertexCount, false);
 	}
 
     if (mesh == NULL)

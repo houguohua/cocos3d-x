@@ -55,6 +55,8 @@ public:
 
     virtual ~C3DModel();
 
+    static C3DModel* create();
+
     C3DMesh* getMesh() const;
 
     unsigned int getSubMeshCount() const;
@@ -130,9 +132,9 @@ protected:
 
 	float distanceToCamera(void);
 
-	/**
+    /**
      * Sets the specified materia's node binding to this model's node.
-    */
+     */
     void setMaterialNodeBinding(C3DMaterial *m);
 
     void validatePartCount();

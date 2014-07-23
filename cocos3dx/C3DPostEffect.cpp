@@ -76,10 +76,11 @@ bool C3DPostEffect::init(const std::string& szMaterial)
 	technique->getPass(0u)->getParameter("u_texture")->setValue(_postProcess->getFramebufferSampler());
 
 	C3DMesh* mesh = Geo::createQuadFullscreen( 1, 1 );
+	
 	_model = C3DSkinlessModel::create();
+	_model->retain();
+	
 	_model->setMesh( mesh );
-	SAFE_RELEASE(mesh);
-
 	_model->setNode(_postProcess);
 
     return true;

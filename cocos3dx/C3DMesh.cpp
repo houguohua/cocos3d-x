@@ -110,15 +110,16 @@ bool C3DMesh::init(C3DVertexFormat* vertexFormat, unsigned int vertexCount, bool
 	return  true;
 }
 
-C3DMesh* C3DMesh::createMesh(C3DVertexFormat* vertexFormat, unsigned int vertexCount, bool dynamic)
+C3DMesh* C3DMesh::create(C3DVertexFormat* vertexFormat, unsigned int vertexCount, bool dynamic)
 {
     C3DMesh* mesh = new C3DMesh(vertexFormat);
+	mesh->autorelease();
+
 	bool res = mesh->init(vertexFormat, vertexCount, dynamic);
 	if(res == true)
 		return mesh;
 	else
 	{
-		SAFE_RELEASE(mesh);
 		return NULL;
 	}
 }

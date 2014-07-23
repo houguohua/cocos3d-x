@@ -44,7 +44,7 @@ class C3DMorphMesh : public C3DMesh
 	friend class Geo;
 
 public:
-	static C3DMorphMesh* createMesh(C3DVertexFormat* vertexFormat, unsigned int vertexCount, bool dynamic);
+	static C3DMorphMesh* create(C3DVertexFormat* vertexFormat, unsigned int vertexCount, bool dynamic);
     virtual void setVertexData(void* vertexData, unsigned int vertexStart = 0, unsigned int vertexCount = 0);
 
 	void pushMorph(C3DMorph* morph,int morphTargetIndex,float weight);

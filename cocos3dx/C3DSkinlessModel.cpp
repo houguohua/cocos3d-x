@@ -40,7 +40,9 @@ C3DSkinlessModel::~C3DSkinlessModel()
 
 C3DModel* C3DSkinlessModel::create()
 {
-    return new C3DSkinlessModel();
+	C3DModel* model = new C3DSkinlessModel();
+	model->autorelease();
+	return model;
 }
 
 C3DModel* C3DSkinlessModel::clone(C3DNode::CloneContext& context) const

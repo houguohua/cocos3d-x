@@ -49,7 +49,7 @@ public:
 	@param vertexCount vertex count
 	@param dynamic dynamic increase the vertex number or not
 	*/
-    static  C3DMesh* createMesh(C3DVertexFormat* vertexFormat, unsigned int vertexCount, bool dynamic = false);
+    static  C3DMesh* create(C3DVertexFormat* vertexFormat, unsigned int vertexCount, bool dynamic = false);
 
     const std::string& getUrl() const;
 
